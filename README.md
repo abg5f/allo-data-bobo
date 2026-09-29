@@ -1,4 +1,4 @@
-# Brutus : de donnée brute à lead en or
+# Allô Data Bobo · Brutus, de donnée brute à lead en or
 
 Mini-jeu web en français. Tu incarnes **Brutus**, une donnée brute tombée dans le CRM, qui doit devenir assez propre pour faire sauter de joie le commercial.
 
