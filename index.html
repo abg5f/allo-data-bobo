@@ -1061,15 +1061,15 @@ STATIONS.format.play=(area,api)=>{
   const opts=(correct,pool)=>shuffle([correct,...shuffle([...new Set(pool.filter(x=>x&&x!==correct))]).slice(0,api.diff>=2?3:2)]);
   const cleanP=L.raw.prenomC,cleanN=L.raw.nomC,em=L.raw.emailBase.toLowerCase();
   const defs=[
-    {f:'prenom',lab:'Prénom',raw:L.cleaned.has('prenom')?cleanP:L.raw.prenomJ,rule:'Prénom → Initiale en majuscule',ok:p.prenom,
+    {f:'prenom',lab:'Prénom',raw:cleanP,rule:'Prénom → Initiale en majuscule',ok:p.prenom,
       pool:[p.prenom.toUpperCase(),p.prenom.toLowerCase(),firstOnly(p.prenom),messCase(p.prenom),' '+p.prenom.toLowerCase()],why:`Prénom : initiale en majuscule (et après un tiret) → « ${p.prenom} ».`},
-    {f:'nom',lab:'Nom',raw:L.cleaned.has('nom')?cleanN:L.raw.nomJ,rule:'NOM → tout en MAJUSCULES',ok:p.nom.toUpperCase(),
+    {f:'nom',lab:'Nom',raw:cleanN,rule:'NOM → tout en MAJUSCULES',ok:p.nom.toUpperCase(),
       pool:[capWord(p.nom),p.nom.toLowerCase(),messCase(p.nom),p.nom.toUpperCase().replace(/[' -]/g,'')],why:`Le NOM s'écrit en MAJUSCULES, sans rien retirer → « ${p.nom.toUpperCase()} ».`},
     {f:'ville',lab:'Ville',raw:L.raw.villeC,rule:'Ville → écriture officielle',ok:p.place.v,
       pool:[p.place.v.toUpperCase(),p.place.v.toLowerCase(),capWord(p.place.v),noAcc(p.place.v),messCase(p.place.v)],why:`La ville garde son écriture officielle → « ${p.place.v} ».`},
     {f:'email',lab:'E-mail',raw:L.raw.emailMess,rule:'E-mail → tout en minuscules',ok:em,mono:true,
       pool:[em[0].toUpperCase()+em.slice(1),em.toUpperCase(),messCase(em),L.raw.emailMess],why:"Une adresse e-mail s'écrit tout en minuscules."}
-  ];
+  ].filter(d=>d.f!=='email'||!L.level.st.includes('email')); // l'e-mail fautif est traité en entier au Guichet des e-mails
   const list=defs.map(d=>({isLead:true,prompt:`<div class="rule">📏 ${d.rule}</div><div class="big ${d.mono?'mono':''}">${esc(d.raw)}</div><p class="q">${d.lab} : quelle écriture ?</p>`,
     choices:opts(d.ok,d.pool).map(v=>({html:esc(v).replace(/^ /,'␣'),ok:v===d.ok,why:d.why,mono:d.mono})),
     onOk:()=>{L.formatted.add(d.f);api.refresh([d.f])}}));
