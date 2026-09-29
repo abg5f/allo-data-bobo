@@ -1,0 +1,1348 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Brutus — De donnée brute à lead en or</title>
+<meta name="description" content="Incarne Brutus, une donnée brute tout juste arrivée dans le CRM. Nettoie-toi, mets-toi en forme, trouve ton indicatif, ta civilité, ta source… et file jusqu'au commercial !">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Brutus — De donnée brute à lead en or 🧹✨">
+<meta property="og:description" content="Un mini-jeu où tu incarnes une donnée brute qui doit devenir assez propre pour faire sauter de joie le commercial. Combien d'étoiles feras-tu ?">
+<meta property="og:image" content="/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#6c4df6">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧹</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Nunito:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#fff6ea; --bg2:#ffeccf; --card:#ffffff; --ink:#231942; --ink2:#5b5575; --line:#e9dfcf;
+  --violet:#6c4df6; --violet2:#8f7bff; --mint:#19c39c; --coral:#ff5d6c; --sun:#ffc93c; --sky:#4fb3ff; --dirt:#9c8b72;
+  --r:18px; --shadow:0 6px 0 rgba(35,25,66,.12), 0 12px 30px rgba(35,25,66,.08);
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{background:var(--bg);background-image:radial-gradient(circle at 12% 8%,#ffe3b3 0,transparent 32%),radial-gradient(circle at 92% 90%,#e3dcff 0,transparent 35%);color:var(--ink);font-family:Nunito,system-ui,sans-serif;font-size:16px;-webkit-tap-highlight-color:transparent;overflow-x:hidden}
+h1,h2,h3,h4,.baloo{font-family:'Baloo 2',Nunito,sans-serif;margin:0;line-height:1.1}
+button{font-family:inherit;color:inherit;cursor:pointer}
+.mono{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace}
+.screen{display:none;min-height:100vh;min-height:100dvh;padding:16px;max-width:1120px;margin:0 auto}
+.screen.on{display:block;animation:fadeIn .35s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* Buttons */
+.btn{border:0;border-radius:14px;padding:14px 22px;font-weight:800;font-size:17px;background:var(--violet);color:#fff;box-shadow:0 5px 0 #4a2fc9;transition:transform .08s,box-shadow .08s;display:inline-flex;align-items:center;gap:8px;justify-content:center}
+.btn:active{transform:translateY(4px);box-shadow:0 1px 0 #4a2fc9}
+.btn.mint{background:var(--mint);box-shadow:0 5px 0 #0f9175}
+.btn.mint:active{box-shadow:0 1px 0 #0f9175}
+.btn.sun{background:var(--sun);color:var(--ink);box-shadow:0 5px 0 #d69e12}
+.btn.sun:active{box-shadow:0 1px 0 #d69e12}
+.btn.ghost{background:#fff;color:var(--ink);box-shadow:0 5px 0 var(--line);border:2px solid var(--line)}
+.btn.ghost:active{box-shadow:0 1px 0 var(--line)}
+.btn.li{background:#0a66c2;box-shadow:0 5px 0 #064a8d}
+.btn[disabled]{opacity:.45;pointer-events:none}
+.icon-btn{border:2px solid var(--line);background:#fff;border-radius:12px;width:42px;height:42px;font-size:18px;display:grid;place-items:center;flex:none}
+
+/* Title */
+#scr-title{display:none;text-align:center;padding-top:28px}
+#scr-title.on{display:flex;flex-direction:column;align-items:center}
+.logo{font-size:clamp(56px,13vw,112px);font-weight:800;letter-spacing:-1px;color:var(--violet);text-shadow:0 5px 0 #d8cfff;line-height:.9}
+.logo span{color:var(--coral)}
+.tagline{font-family:'Baloo 2';font-size:clamp(20px,4.4vw,28px);font-weight:700;margin-top:6px}
+.pitch{max-width:560px;color:var(--ink2);font-size:17px;line-height:1.5;margin:14px auto 6px}
+.title-stage{display:flex;align-items:flex-end;justify-content:center;gap:clamp(16px,8vw,90px);margin:14px 0 10px;position:relative;width:100%;max-width:560px}
+.title-stage .road{position:absolute;left:0;right:0;bottom:8px;height:10px;border-radius:10px;background:repeating-linear-gradient(90deg,var(--line) 0 18px,transparent 18px 30px)}
+.title-stage .b{width:clamp(120px,30vw,170px)}
+.title-stage .s{width:clamp(90px,22vw,130px)}
+.bubble{position:relative;background:#fff;border:2px solid var(--ink);border-radius:14px;padding:6px 10px;font-weight:800;font-size:14px;box-shadow:0 3px 0 var(--ink);white-space:nowrap}
+.bubble:after{content:"";position:absolute;bottom:-9px;left:24px;border:8px solid transparent;border-top-color:var(--ink);border-bottom:0}
+.title-stage .bubble{position:absolute;top:-12px}
+.title-btns{display:flex;flex-direction:column;gap:14px;width:100%;max-width:340px;margin-top:10px}
+.title-foot{margin-top:18px;color:var(--ink2);font-size:13px}
+
+/* Levels */
+.topbar{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.topbar h2{font-size:28px;flex:1}
+.pill{background:#fff;border:2px solid var(--line);border-radius:999px;padding:6px 12px;font-weight:800;white-space:nowrap}
+.levels{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+.lvl{position:relative;text-align:left;border:0;background:var(--card);border-radius:var(--r);padding:16px;box-shadow:var(--shadow);display:flex;gap:14px;align-items:flex-start;transition:transform .12s}
+.lvl:hover{transform:translateY(-3px)}
+.lvl .num{flex:none;width:48px;height:48px;border-radius:14px;background:var(--violet);color:#fff;font-family:'Baloo 2';font-weight:800;font-size:24px;display:grid;place-items:center}
+.lvl.boss .num{background:var(--coral)}
+.lvl h3{font-size:19px}
+.lvl .new{font-size:13px;color:var(--ink2);margin-top:3px}
+.lvl .st{margin-top:6px;font-size:18px;letter-spacing:1px}
+.lvl .stars{color:var(--sun);font-size:18px;margin-top:4px;letter-spacing:2px}
+.lvl .stars i{color:#e6dccb;font-style:normal}
+.lvl .best{font-size:12px;color:var(--ink2);font-weight:700}
+.lvl.locked{opacity:.55;filter:grayscale(.7);pointer-events:none}
+.lvl.locked .num{background:#bbb}
+.rush-card{margin-top:18px;background:linear-gradient(120deg,#231942,#4a2fc9);color:#fff;border-radius:var(--r);padding:18px;display:flex;align-items:center;gap:16px;box-shadow:var(--shadow);border:0;width:100%;text-align:left}
+.rush-card .big{font-size:40px}
+.rush-card h3{font-size:24px}
+.rush-card p{margin:2px 0 0;opacity:.85}
+.rush-card.locked{opacity:.6;filter:grayscale(.6);pointer-events:none}
+
+/* HUD */
+.hud{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.hud-title{flex:1;min-width:0}
+.hud-title small{display:block;font-weight:800;color:var(--violet);font-size:12px;text-transform:uppercase;letter-spacing:.08em}
+.hud-title b{font-family:'Baloo 2';font-size:20px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hud-stats{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.hud-stats .pill{font-size:14px;padding:5px 10px}
+#hud-time.hot{background:var(--coral);color:#fff;border-color:var(--coral);animation:pulse .6s infinite alternate}
+#hud-combo{background:var(--sun);border-color:#f0b21a;display:none}
+#hud-combo.on{display:inline-block;animation:pop .3s}
+@keyframes pulse{to{transform:scale(1.08)}}
+@keyframes pop{0%{transform:scale(.4)}70%{transform:scale(1.2)}100%{transform:scale(1)}}
+
+/* Pipeline */
+.pipeline{background:#fff;border-radius:var(--r);box-shadow:var(--shadow);padding:40px 12px 8px;display:flex;align-items:center;gap:0;overflow-x:auto;scrollbar-width:none;margin-bottom:14px}
+.pipeline::-webkit-scrollbar{display:none}
+.node{flex:none;display:flex;flex-direction:column;align-items:center;gap:3px;position:relative;width:62px}
+.node .dot{width:40px;height:40px;border-radius:50%;background:var(--bg2);border:3px solid var(--line);display:grid;place-items:center;font-size:19px;transition:.3s}
+.node small{font-size:10px;font-weight:800;color:var(--ink2);text-align:center;line-height:1.1;height:22px}
+.node.done .dot{background:var(--mint);border-color:var(--mint);color:#fff}
+.node.cur .dot{border-color:var(--violet);background:#fff;box-shadow:0 0 0 5px #e0d9ff;animation:pulse .7s infinite alternate}
+.link{flex:1;min-width:10px;height:5px;border-radius:4px;background:var(--line);margin-bottom:24px}
+.link.done{background:var(--mint)}
+.node.boss .dot{width:48px;height:48px;background:#fff;border-color:var(--coral);font-size:24px}
+.node .me{position:absolute;top:-36px;width:30px;left:50%;transform:translateX(-50%);pointer-events:none}
+.grumble{position:absolute;right:0;top:-2px;transform:translateY(-100%);font-size:11px;padding:4px 8px}
+.grumble:after{left:auto;right:18px}
+.pipe-wrap{position:relative;padding-top:26px}
+
+/* Game grid */
+.game-grid{display:grid;grid-template-columns:330px 1fr;grid-template-areas:"hero station" "fiche station";gap:14px;align-items:start}
+.hero{grid-area:hero;background:#fff;border-radius:var(--r);box-shadow:var(--shadow);padding:12px 14px;display:flex;flex-direction:column;align-items:center}
+.char-wrap{width:170px;position:relative}
+.evo-name{font-family:'Baloo 2';font-weight:800;font-size:20px;color:var(--violet);text-align:center}
+.evo-lvl{font-size:12px;font-weight:800;color:var(--ink2);text-transform:uppercase;letter-spacing:.08em}
+.quality{display:flex;align-items:center;gap:8px;width:100%;margin-top:8px;font-weight:800;font-size:13px}
+.quality .bar{flex:1;height:12px;border-radius:10px;background:var(--bg2);overflow:hidden}
+.quality .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--coral),var(--sun),var(--mint));border-radius:10px;transition:width .6s cubic-bezier(.2,1.4,.4,1)}
+.fiche{grid-area:fiche;background:#fff;border-radius:var(--r);box-shadow:var(--shadow);padding:12px 14px}
+.fiche h4{font-size:15px;display:flex;align-items:center;gap:6px;margin-bottom:6px}
+.fiche h4 span{font-family:Nunito;font-size:11px;color:var(--ink2);font-weight:700;margin-left:auto}
+.frow{display:grid;grid-template-columns:96px 1fr;gap:6px;padding:4px 0;border-top:1px dashed var(--line);font-size:13px;align-items:center}
+.frow .k{color:var(--ink2);font-weight:800;font-size:11px;text-transform:uppercase;letter-spacing:.04em}
+.frow .v{font-weight:700;word-break:break-all;border-radius:6px;padding:1px 6px}
+.frow.bad .v{background:#ffe4e6;color:#b4232f}
+.frow.ok .v{background:#dbf7ee;color:#0b7a5e}
+.frow.na .v{color:#a39c90}
+.frow.flash .v{animation:flash .8s}
+@keyframes flash{0%{transform:scale(1.15);background:#fff3b0}100%{transform:none}}
+.station{grid-area:station;background:#fff;border-radius:var(--r);box-shadow:var(--shadow);padding:16px;min-height:430px;position:relative;overflow:hidden}
+.st-head{display:flex;gap:12px;align-items:center;margin-bottom:12px;padding-bottom:12px;border-bottom:2px dashed var(--line)}
+.st-head .ic{font-size:34px;width:56px;height:56px;border-radius:16px;background:var(--bg2);display:grid;place-items:center;flex:none}
+.st-head h2{font-size:23px}
+.st-head p{margin:2px 0 0;color:var(--ink2);font-size:14px;line-height:1.35}
+
+/* Rounds */
+.rnd-head{display:flex;gap:8px;align-items:center;min-height:26px;margin-bottom:6px}
+.rnd-count{font-weight:800;font-size:13px;color:var(--ink2);background:var(--bg2);border-radius:999px;padding:2px 10px}
+.me-tag{font-weight:800;font-size:13px;background:var(--violet);color:#fff;border-radius:999px;padding:2px 10px;animation:pop .4s}
+.prompt{background:var(--bg);border:2px solid var(--line);border-radius:16px;padding:16px;text-align:center;margin-bottom:14px}
+.prompt.pop{animation:slideIn .35s cubic-bezier(.2,1.3,.4,1)}
+@keyframes slideIn{from{transform:translateX(40px);opacity:0}to{transform:none;opacity:1}}
+.prompt .big{font-size:clamp(20px,4.6vw,30px);font-weight:800;font-family:'Baloo 2';word-break:break-all}
+.prompt .q{margin:8px 0 0;font-weight:800;color:var(--ink2)}
+.prompt .clue{font-size:18px;font-weight:800;line-height:1.35}
+.prompt .rule{display:inline-block;background:var(--sun);border-radius:10px;padding:3px 10px;font-weight:800;font-size:13px;margin-bottom:8px}
+.choices{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+.choices.two{grid-template-columns:1fr 1fr}
+.choices.three{grid-template-columns:repeat(3,1fr)}
+.choice{border:2px solid var(--line);background:#fff;border-radius:14px;padding:13px 12px;font-weight:800;font-size:16px;box-shadow:0 4px 0 var(--line);transition:transform .08s;display:flex;align-items:center;justify-content:center;gap:8px;text-align:center;min-height:54px;word-break:break-word}
+.choice:hover{border-color:var(--violet2)}
+.choice:active{transform:translateY(3px);box-shadow:0 1px 0 var(--line)}
+.choice.right{background:var(--mint);border-color:var(--mint);color:#fff;box-shadow:0 4px 0 #0f9175;animation:pop .3s}
+.choice.wrong{background:#ffe4e6;border-color:var(--coral);color:#b4232f;animation:shake .35s;opacity:.7}
+.choice.reveal{border-color:var(--mint);border-style:dashed}
+.choice .ci{font-size:22px}
+.choice .sub{display:block;font-size:11px;color:var(--ink2);font-weight:700}
+.choice.mono{font-size:15px}
+.kbd{display:inline-grid;place-items:center;min-width:20px;height:20px;border-radius:6px;background:var(--bg2);font-size:11px;color:var(--ink2);margin-right:2px}
+@keyframes shake{0%,100%{transform:none}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+.shake{animation:shake .35s}
+.tbar{height:8px;border-radius:8px;background:var(--bg2);overflow:hidden;margin-top:14px}
+.tbar i{display:block;height:100%;background:var(--coral);width:100%}
+
+/* Clean station */
+.clean-field{margin-bottom:16px}
+.clean-field .lab{font-weight:800;font-size:12px;color:var(--ink2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.tiles{display:flex;flex-wrap:wrap;gap:6px}
+.tile{min-width:42px;height:52px;border-radius:12px;border:2px solid var(--line);background:#fff;font-size:24px;font-weight:800;display:grid;place-items:center;box-shadow:0 4px 0 var(--line);padding:0 6px;font-family:'Baloo 2'}
+.tile.sp{min-width:16px;border:0;box-shadow:none;background:transparent}
+.tile.gone{animation:zap .35s forwards;pointer-events:none}
+@keyframes zap{50%{transform:scale(1.4) rotate(15deg);background:var(--sun)}100%{transform:scale(0);opacity:0;min-width:0;width:0;padding:0;margin:0 -3px;border-width:0}}
+.shower{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.drop{position:absolute;top:-20px;width:4px;height:14px;border-radius:4px;background:var(--sky);opacity:.5;animation:rain 1s linear infinite}
+@keyframes rain{to{transform:translateY(520px)}}
+
+/* Dedup */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px}
+.pcard{border:2px solid var(--line);border-radius:14px;padding:10px 12px;background:#fff;text-align:left;font-size:13px;box-shadow:0 4px 0 var(--line);line-height:1.5;transition:transform .1s}
+.pcard b{font-size:15px;display:block;margin-bottom:2px}
+.pcard.me{background:#efeaff;border-color:var(--violet);box-shadow:0 4px 0 #cfc4ff;margin-bottom:12px;cursor:default}
+.pcard.me:before{content:"TA FICHE";display:inline-block;background:var(--violet);color:#fff;font-size:10px;font-weight:800;border-radius:6px;padding:1px 6px;margin-bottom:4px}
+.pcard.merged{animation:absorb .6s forwards;pointer-events:none}
+@keyframes absorb{40%{transform:scale(1.08);background:var(--mint)}100%{transform:scale(.2) translateY(-200px);opacity:0}}
+.pcard.wrong{background:#ffe4e6;border-color:var(--coral);animation:shake .35s}
+.dup-left{font-weight:800;color:var(--violet);margin:10px 0 0;font-size:14px}
+
+/* Route */
+.sales-choice{flex-direction:column;gap:2px;padding:10px}
+.sales-choice .av{width:54px;height:62px}
+.sales-choice .zn{font-size:12px;color:var(--ink2);font-weight:700}
+
+/* Modal */
+.overlay{position:fixed;inset:0;background:rgba(35,25,66,.55);display:none;align-items:center;justify-content:center;padding:16px;z-index:50;backdrop-filter:blur(3px)}
+.overlay.on{display:flex;animation:fadeIn .25s}
+.modal{background:#fff;border-radius:24px;max-width:470px;width:100%;padding:22px;text-align:center;box-shadow:0 10px 0 rgba(0,0,0,.15);animation:pop .35s;max-height:calc(100dvh - 32px);overflow:auto}
+.modal .ic{font-size:60px;line-height:1}
+.modal h2{font-size:28px;margin:6px 0 4px}
+.modal .kick{font-weight:800;color:var(--violet);text-transform:uppercase;font-size:12px;letter-spacing:.1em}
+.modal .why{background:var(--bg);border-radius:14px;padding:12px;margin:12px 0;text-align:left;font-size:15px;line-height:1.45}
+.modal .why b{color:var(--coral)}
+.modal .how{text-align:left;font-size:15px;line-height:1.45;margin-bottom:16px}
+
+/* Toasts */
+#toasts{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);display:flex;flex-direction:column;gap:8px;z-index:60;width:min(520px,calc(100% - 32px));pointer-events:none}
+.toast{background:var(--ink);color:#fff;border-radius:14px;padding:11px 14px;font-weight:700;font-size:15px;box-shadow:0 6px 20px rgba(0,0,0,.2);animation:toastIn .3s cubic-bezier(.2,1.3,.4,1);line-height:1.35}
+.toast.bad{background:#c2283a}
+.toast.info{background:#1c6fb8}
+.toast.ach{background:linear-gradient(90deg,#ffb020,#ff7a1a);color:#231942}
+.toast.out{animation:toastOut .3s forwards}
+@keyframes toastIn{from{transform:translateY(30px);opacity:0}}
+@keyframes toastOut{to{transform:translateY(20px);opacity:0}}
+.float{position:fixed;font-family:'Baloo 2';font-weight:800;font-size:24px;color:var(--mint);pointer-events:none;z-index:70;animation:floatUp .9s forwards;text-shadow:0 2px 0 #fff}
+@keyframes floatUp{to{transform:translateY(-60px);opacity:0}}
+.evo-banner{position:absolute;left:50%;top:40%;transform:translate(-50%,-50%);background:var(--violet);color:#fff;font-family:'Baloo 2';font-weight:800;font-size:clamp(20px,4vw,28px);padding:12px 22px;border-radius:18px;z-index:5;white-space:nowrap;box-shadow:0 6px 0 #4a2fc9;animation:banner 1.1s forwards;pointer-events:none}
+@keyframes banner{0%{transform:translate(-50%,-50%) scale(.3) rotate(-8deg);opacity:0}25%{transform:translate(-50%,-50%) scale(1.1) rotate(2deg);opacity:1}80%{opacity:1;transform:translate(-50%,-50%) scale(1)}100%{opacity:0;transform:translate(-50%,-80%) scale(.9)}}
+
+/* Characters */
+.brutus,.sales{display:block;width:100%;height:auto;overflow:visible}
+.brutus .bob{animation:bob 1.6s ease-in-out infinite;transform-origin:80px 160px}
+.brutus.raw .bob{animation:wobble 1.1s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-5px) scaleY(1.02)}}
+@keyframes wobble{25%{transform:rotate(-3deg) scaleX(1.03)}75%{transform:rotate(3deg) scaleY(1.03)}}
+.brutus .orbit{animation:spin 7s linear infinite;transform-origin:80px 100px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.brutus .twin{animation:twin 1.2s steps(2) infinite}
+@keyframes twin{50%{opacity:.15}}
+.brutus .stink{animation:stink 1.4s ease-in-out infinite}
+@keyframes stink{50%{transform:translateY(-6px);opacity:.3}}
+.brutus .spark{animation:twinkle 1s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:center}
+@keyframes twinkle{to{transform:scale(.4);opacity:.4}}
+.evolve{animation:evolve .8s}
+@keyframes evolve{0%{filter:brightness(1)}30%{filter:brightness(2.2) drop-shadow(0 0 20px #fff6a0);transform:scale(1.18)}100%{filter:none;transform:none}}
+.sales.joy{animation:jump .45s ease-in-out infinite alternate}
+@keyframes jump{from{transform:translateY(0)}to{transform:translateY(-26px) rotate(-3deg)}}
+.sales .steam{animation:stink 1.6s infinite}
+.sales .sweat{animation:drip 1.4s infinite}
+@keyframes drip{to{transform:translateY(8px);opacity:0}}
+
+/* End */
+.end{max-width:860px;margin:0 auto;text-align:center}
+.end-scene{position:relative;height:290px;background:linear-gradient(#fff 0,#fff 70%,var(--bg2) 70%);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden;margin-bottom:16px}
+.end-scene .eb{position:absolute;bottom:12px;left:50%;width:150px;animation:walkIn 1.3s cubic-bezier(.3,.8,.4,1) forwards}
+@keyframes walkIn{from{transform:translateX(-340px)}to{transform:translateX(-140px)}}
+.end-scene .es{position:absolute;bottom:14px;left:50%;width:110px;transform:translateX(30px)}
+.end-scene .bubble{position:absolute;left:50%;top:14px;transform:translateX(-50%);white-space:normal;width:max-content;max-width:min(420px,90%);text-align:left;opacity:0;animation:appear .4s 1.3s forwards;font-size:15px}
+@keyframes appear{to{opacity:1}}
+.end h2{font-size:clamp(30px,6vw,42px)}
+.bigstars{font-size:48px;letter-spacing:6px;color:var(--sun);margin:4px 0}
+.bigstars i{color:#e6dccb;font-style:normal;display:inline-block}
+.bigstars span{display:inline-block;animation:pop .5s backwards}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:14px 0}
+.stat{background:#fff;border-radius:14px;box-shadow:var(--shadow);padding:10px}
+.stat b{display:block;font-family:'Baloo 2';font-size:26px}
+.stat small{color:var(--ink2);font-weight:800;font-size:12px;text-transform:uppercase}
+.compare{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center;margin:16px 0;text-align:left}
+.compare .fiche{box-shadow:var(--shadow);grid-area:auto}
+.compare .arrow{font-size:32px}
+.compare .before h4{color:var(--coral)}
+.compare .after h4{color:var(--mint)}
+.teaser{background:var(--sun);border-radius:14px;padding:10px 14px;font-weight:800;margin:10px 0}
+.end-btns{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin:16px 0}
+.share-box{background:#fff;border-radius:var(--r);box-shadow:var(--shadow);padding:16px;margin-top:10px}
+.share-box p{margin:0 0 10px;font-weight:700;color:var(--ink2)}
+.record{display:inline-block;background:var(--coral);color:#fff;border-radius:10px;padding:4px 12px;font-weight:800;animation:pop .5s 1.6s backwards}
+
+/* Achievements */
+.achs{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+.ach{background:#fff;border-radius:var(--r);padding:14px;box-shadow:var(--shadow);display:flex;gap:12px;align-items:center}
+.ach .i{font-size:36px}
+.ach h3{font-size:18px}
+.ach p{margin:2px 0 0;font-size:13px;color:var(--ink2)}
+.ach.lock{opacity:.5;filter:grayscale(1)}
+
+#confetti{position:fixed;inset:0;pointer-events:none;z-index:80;width:100%;height:100%}
+
+/* Rush mini celebration */
+.mini-cele{position:absolute;right:12px;top:12px;width:70px;z-index:4;pointer-events:none}
+
+@media (max-width:820px){
+  .game-grid{grid-template-columns:1fr;grid-template-areas:"hero" "station" "fiche"}
+  .hero{flex-direction:row;gap:12px;padding:10px}
+  .char-wrap{width:96px;flex:none}
+  .hero-info{flex:1;min-width:0}
+  .evo-name{text-align:left;font-size:18px}
+  .station{min-height:0}
+}
+@media (max-width:560px){
+  .screen{padding:12px 16px}
+  .hud-title b{font-size:16px}
+  .hud-stats .pill{font-size:12px;padding:4px 8px}
+  .icon-btn{width:38px;height:38px}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .compare{grid-template-columns:1fr}
+  .compare .arrow{transform:rotate(90deg);text-align:center}
+  .choices.three{grid-template-columns:1fr}
+  .st-head .ic{width:46px;height:46px;font-size:28px}
+  .st-head h2{font-size:20px}
+  .tile{min-width:30px;height:42px;font-size:19px;padding:0 4px;border-radius:10px}
+  .tiles{gap:4px}
+  .node{width:52px}
+  .node .dot{width:34px;height:34px;font-size:16px}
+  .char-wrap{width:74px}
+  .hero{padding:8px 12px}
+  .evo-name{font-size:17px}
+  .station{padding:12px}
+  .st-head p{font-size:13px}
+  .grumble{display:none}
+  .pipe-wrap{padding-top:0}
+  .pipeline{padding-top:36px;margin-bottom:10px}
+  .game-grid{gap:10px}
+  .prompt{padding:12px}
+}
+</style>
+</head>
+<body>
+
+<!-- TITLE -->
+<section id="scr-title" class="screen">
+  <div class="logo">BRUT<span>US</span></div>
+  <div class="tagline">De donnée brute à lead en or ✨</div>
+  <p class="pitch">Tu es <b>Brutus</b>, une donnée tout juste tombée dans le CRM… en vrac. Nettoie-toi, mets-toi en forme, trouve ton indicatif, ta civilité, ta source… et file jusqu'au <b>commercial</b> qui t'attend depuis trois cafés.</p>
+  <div class="title-stage">
+    <div class="road"></div>
+    <div class="b" id="title-brutus"></div>
+    <div class="s" id="title-sales"></div>
+    <div class="bubble" style="right:0">Il arrive quand, ce lead ?!</div>
+  </div>
+  <div class="title-btns">
+    <button class="btn" id="btn-play">▶ Jouer</button>
+    <button class="btn sun" id="btn-rush">⚡ Mode Rush</button>
+    <button class="btn ghost" id="btn-ach">🏅 Mes succès</button>
+  </div>
+  <div class="title-foot"><button class="icon-btn mute-btn" style="display:inline-grid;vertical-align:middle">🔊</button> &nbsp;Progression enregistrée sur cet appareil</div>
+</section>
+
+<!-- LEVELS -->
+<section id="scr-levels" class="screen">
+  <div class="topbar">
+    <button class="icon-btn" data-go="title">←</button>
+    <h2>Le parcours de Brutus</h2>
+    <span class="pill" id="total-stars">⭐ 0/30</span>
+  </div>
+  <div class="levels" id="levels"></div>
+  <button class="rush-card" id="rush-card"></button>
+</section>
+
+<!-- GAME -->
+<section id="scr-game" class="screen">
+  <div class="hud">
+    <button class="icon-btn" id="btn-quit" title="Quitter">✕</button>
+    <div class="hud-title"><small id="hud-lvl">Niveau 1</small><b id="hud-name">…</b></div>
+    <div class="hud-stats">
+      <span class="pill" id="hud-combo"></span>
+      <span class="pill" id="hud-time">⏱ 0:00</span>
+      <span class="pill" id="hud-score">⭐ 0</span>
+    </div>
+    <button class="icon-btn mute-btn">🔊</button>
+  </div>
+  <div class="pipe-wrap"><div class="pipeline" id="pipeline"></div></div>
+  <div class="game-grid">
+    <aside class="hero">
+      <div class="char-wrap" id="char"></div>
+      <div class="hero-info">
+        <div class="evo-lvl" id="evo-lvl">Stade 0</div>
+        <div class="evo-name" id="evo-name">Donnée brute</div>
+        <div class="quality"><span>Qualité</span><div class="bar"><i id="q-bar"></i></div><b id="q-pct">0%</b></div>
+      </div>
+    </aside>
+    <div class="fiche" id="fiche"></div>
+    <main class="station" id="station">
+      <div class="st-head"><div class="ic" id="st-icon"></div><div><h2 id="st-name"></h2><p id="st-how"></p></div></div>
+      <div id="area"></div>
+    </main>
+  </div>
+</section>
+
+<!-- END -->
+<section id="scr-end" class="screen"><div class="end" id="end"></div></section>
+
+<!-- ACHIEVEMENTS -->
+<section id="scr-ach" class="screen">
+  <div class="topbar">
+    <button class="icon-btn" data-go="title">←</button>
+    <h2>Mes succès</h2>
+    <span class="pill" id="ach-count">0/10</span>
+  </div>
+  <div class="achs" id="achs"></div>
+</section>
+
+<div class="overlay" id="overlay"><div class="modal" id="modal"></div></div>
+<div id="toasts"></div>
+<canvas id="confetti"></canvas>
+
+<script>
+'use strict';
+/* ================= Utils ================= */
+const $=(s,r=document)=>r.querySelector(s);
+const $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const rnd=a=>a[Math.floor(Math.random()*a.length)];
+const rint=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+const shuffle=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const noAcc=s=>s.normalize('NFD').replace(/[̀-ͯ]/g,'');
+const capWord=s=>s.split(/([-' ])/).map(p=>/^[-' ]$/.test(p)||!p?p:p[0].toUpperCase()+p.slice(1).toLowerCase()).join('');
+const fmtTime=t=>{t=Math.max(0,Math.round(t));return Math.floor(t/60)+':'+String(t%60).padStart(2,'0')};
+function messCase(s){
+  for(let k=0;k<20;k++){
+    const r=[...s].map(c=>Math.random()<.5?c.toUpperCase():c.toLowerCase()).join('');
+    if(r!==capWord(s)&&r!==s&&r!==s.toUpperCase()&&r!==s.toLowerCase())return r;
+  }
+  return s.toLowerCase()===s?s.toUpperCase():s.toLowerCase();
+}
+
+/* ================= Save ================= */
+const SKEY='brutus-save-v1';
+const SAVE={stars:{},best:{},rush:0,ach:[],muted:false};
+try{Object.assign(SAVE,JSON.parse(localStorage.getItem(SKEY)||'{}'))}catch(e){}
+function persist(){try{localStorage.setItem(SKEY,JSON.stringify(SAVE))}catch(e){}}
+
+/* ================= Audio ================= */
+let AC=null;
+function tone(f,d=.12,type='sine',v=.15,slide=0){
+  if(SAVE.muted)return;
+  try{
+    AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+    const o=AC.createOscillator(),g=AC.createGain(),t=AC.currentTime;
+    o.type=type;o.frequency.setValueAtTime(f,t);
+    if(slide)o.frequency.exponentialRampToValueAtTime(slide,t+d);
+    g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(.001,t+d);
+    o.connect(g);g.connect(AC.destination);o.start(t);o.stop(t+d);
+  }catch(e){}
+}
+const SFX={
+  good(c=0){tone(520+c*45,.09,'triangle',.18);setTimeout(()=>tone(780+c*45,.12,'triangle',.15),70)},
+  bad(){tone(200,.28,'sawtooth',.1,80)},
+  zap(){tone(1200,.09,'square',.06,250)},
+  evolve(){[523,659,784,1046].forEach((f,i)=>setTimeout(()=>tone(f,.16,'triangle',.16),i*85))},
+  win(){[523,659,784,659,784,1046,1318].forEach((f,i)=>setTimeout(()=>tone(f,.2,'square',.07),i*120))},
+  tick(){tone(1400,.03,'square',.04)},
+  click(){tone(660,.04,'triangle',.08)}
+};
+function syncMute(){$$('.mute-btn').forEach(b=>b.textContent=SAVE.muted?'🔇':'🔊')}
+document.addEventListener('click',e=>{
+  const m=e.target.closest('.mute-btn');
+  if(m){SAVE.muted=!SAVE.muted;persist();syncMute();}
+});
+
+/* ================= Data ================= */
+const PM=['Thomas','Nicolas','Julien','Mehdi','Antoine','Lucas','Hugo','Karim','François','Jérôme','Loïc','Mathéo','Rémi','Yannick','Jean-Pierre','Baptiste','Olivier','Sébastien','Youssef','Gaëtan'];
+const PF=['Marie','Sophie','Léa','Chloé','Inès','Émilie','Nathalie','Aïcha','Hélène','Manon','Céline','Anne-Sophie','Zoé','Maëlle','Fatou','Isabelle','Sandrine','Océane','Laëtitia','Marie-Claire'];
+const PA=['Camille','Dominique','Claude','Alix','Sacha','Charlie','Morgan','Eden','Andréa','Maxence'].filter(n=>n!=='Maxence');
+const NOMS=['Dupont','Martin','Lefèvre','Moreau','Bernard','Nguyen','Le Goff','Da Silva','Rousseau','Benali','Guérin','Fontaine','Lemaire','Kerboul','Durand',"N'Diaye",'Dubois','Mercier','Hoarau','Tremblay','Garnier','Chevalier','Le Bihan','Perrin'];
+const CTRY={
+  fr:{name:'France',code:'+33'}, be:{name:'Belgique',code:'+32'}, ch:{name:'Suisse',code:'+41'},
+  es:{name:'Espagne',code:'+34'}, mq:{name:'Martinique',code:'+596'}, re:{name:'La Réunion',code:'+262'},
+  ca:{name:'Canada (Québec)',code:'+1'}
+};
+const ALLCODES=['+33','+32','+41','+34','+596','+262','+1','+44','+49','+352'];
+const PLACES=[
+  {v:'Nantes',cp:'44000',c:'fr',z:'ouest'},{v:'Rennes',cp:'35000',c:'fr',z:'ouest'},{v:'Brest',cp:'29200',c:'fr',z:'ouest'},
+  {v:'Angers',cp:'49100',c:'fr',z:'ouest'},{v:'La Roche-sur-Yon',cp:'85000',c:'fr',z:'ouest'},{v:'Vannes',cp:'56000',c:'fr',z:'ouest'},
+  {v:'Saint-Nazaire',cp:'44600',c:'fr',z:'ouest'},
+  {v:'Paris',cp:'75011',c:'fr',z:'idf'},{v:'Versailles',cp:'78000',c:'fr',z:'idf'},{v:'Créteil',cp:'94000',c:'fr',z:'idf'},
+  {v:'Boulogne-Billancourt',cp:'92100',c:'fr',z:'idf'},{v:'Montreuil',cp:'93100',c:'fr',z:'idf'},
+  {v:'Marseille',cp:'13008',c:'fr',z:'sud'},{v:'Nice',cp:'06000',c:'fr',z:'sud'},{v:'Montpellier',cp:'34000',c:'fr',z:'sud'},
+  {v:'Toulouse',cp:'31000',c:'fr',z:'sud'},{v:'Lyon',cp:'69003',c:'fr',z:'sud'},{v:'Toulon',cp:'83000',c:'fr',z:'sud'},
+  {v:'Bruxelles',cp:'1000',c:'be',z:'intl'},{v:'Liège',cp:'4000',c:'be',z:'intl'},
+  {v:'Genève',cp:'1201',c:'ch',z:'intl'},{v:'Lausanne',cp:'1003',c:'ch',z:'intl'},
+  {v:'Barcelone',cp:'08001',c:'es',z:'intl'},{v:'Madrid',cp:'28001',c:'es',z:'intl'},
+  {v:'Fort-de-France',cp:'97200',c:'mq',z:'intl'},{v:'Le Lamentin',cp:'97232',c:'mq',z:'intl'},
+  {v:'Saint-Pierre',cp:'97410',c:'re',z:'intl'},{v:'Saint-Paul',cp:'97460',c:'re',z:'intl'},
+  {v:'Montréal',cp:'H2X 1Y4',c:'ca',z:'intl'},{v:'Québec',cp:'G1R 4P5',c:'ca',z:'intl'}
+];
+const SALES={
+  ouest:{name:'Marco',zone:'Grand Ouest',depts:'29 · 35 · 44 · 49 · 56 · 85',color:'#ff5d6c',skin:'#f1c27d',hair:'#3b2a20'},
+  idf:{name:'Inès',zone:'Île-de-France',depts:'75 · 78 · 92 · 93 · 94',color:'#6c4df6',skin:'#c68642',hair:'#1b1b1b',long:true},
+  sud:{name:'Hugo',zone:'Grand Sud',depts:'06 · 13 · 31 · 34 · 69 · 83',color:'#ff9f1c',skin:'#ffdbac',hair:'#a0522d'},
+  intl:{name:'Nadia',zone:'International & Outre-mer',depts:'Belgique · Suisse · Espagne · Canada · DOM',color:'#19c39c',skin:'#8d5524',hair:'#2b1a10',long:true}
+};
+const SOURCES={
+  meta:{label:'Meta',sub:'Facebook · Instagram',icon:'📣'},
+  web:{label:'Formulaire web',sub:'Site internet',icon:'🌐'},
+  tel:{label:'Téléphone',sub:'Appel entrant',icon:'☎️'},
+  salon:{label:'Salon',sub:'Événement',icon:'🎪'},
+  linkedin:{label:'LinkedIn',sub:'Réseau pro',icon:'🔗'},
+  import:{label:'Import fichier',sub:'Excel · CSV',icon:'📁'}
+};
+const CLUES={
+  meta:['Formulaire rempli depuis une pub Instagram','utm_source=facebook&utm_medium=paid_social','Lead Ads — campagne « Printemps »','A cliqué sur une story sponsorisée, puis rempli le formulaire'],
+  web:['Page /contact — bouton « Demander un devis »','Formulaire « Rappelez-moi » du site internet',"Inscription au webinaire depuis la page d'accueil",'utm_source=google&utm_medium=organic → formulaire du site'],
+  tel:["Appel entrant au standard, noté par l'accueil",'Message vocal laissé à 18 h 42','A appelé le numéro vert pour un devis'],
+  salon:['Badge scanné sur le stand B42','Carte de visite récupérée au cocktail du salon','Liste des visiteurs du Salon Pro de Nantes'],
+  linkedin:["Formulaire Lead Gen d'une publication sponsorisée LinkedIn",'A répondu à un InMail','utm_source=linkedin&utm_campaign=b2b'],
+  import:['Fichier « prospects_FINAL_v3_ok.xlsx »',"Import CSV d'un ancien CRM",'Tableur partagé par le stagiaire']
+};
+const DOMAINS=['gmail.com','orange.fr','hotmail.fr','free.fr','outlook.fr','wanadoo.fr','sfr.fr','laposte.net','yahoo.fr'];
+const PRO_DOMAINS=['menuiserie-leroux.fr','bati-ouest.fr','agence-horizon.com','cabinet-morel.fr','solaris-energie.fr','transports-gilles.com'];
+const TYPOS=[
+  {t:e=>e.replace('@gmail.','@gmial.'),m:"« gmial » n'existe pas : c'est gmail !"},
+  {t:e=>e.replace('@hotmail.','@hotmial.'),m:"« hotmial » ? C'est hotmail !"},
+  {t:e=>e.replace('@orange.','@ornage.'),m:"« ornage » ? C'est orange !"},
+  {t:e=>e.replace('@outlook.','@outlok.'),m:"« outlok » : il manque un « o » !"},
+  {t:e=>e.replace('@yahoo.','@yaho.'),m:"« yaho » ? C'est yahoo !"},
+  {t:e=>e.replace('@wanadoo.','@wanado.'),m:"« wanado » : il manque un « o » !"},
+  {t:e=>e.replace('@','@@'),m:"Deux @ ? Une adresse n'en a qu'un seul !"},
+  {t:e=>e.replace(/\.(fr|com|net)$/,'.con'),m:"L'extension « .con » n'existe pas !"},
+  {t:e=>e.replace(/\.(fr|com|net)$/,''),m:"Il manque l'extension (.fr, .com…) !"},
+  {t:e=>e.replace('@',' @'),m:"Un espace dans une adresse e-mail ? Interdit !"},
+  {t:e=>e.replace('@','#'),m:"Sans @, ce n'est pas une adresse e-mail !"},
+  {t:e=>e.replace(/\.(?=[^@]*@)/,','),m:"Une virgule dans l'adresse ? C'est un point qu'il faut !"}
+];
+function typoOf(e,not){return shuffle(TYPOS).find(t=>t.t(e)!==e&&t!==not)}
+const JUNK=['#','*','%','$','¤','!','?','~','^','|','<','>','{','}','&','§','°','_','+','=','😅','🔥','✨','💥','🤖','👻','🍕'];
+const RGPD=[
+  {s:"On conserve la date et l'origine du consentement.",a:true,w:"C'est la preuve que le prospect a dit oui."},
+  {s:"Un lead qui a demandé à ne plus être contacté peut être rappelé « juste une fois ».",a:false,w:"Non, c'est non : on respecte son opposition."},
+  {s:"On ne collecte que les données utiles à la relation commerciale.",a:true,w:"C'est le principe de minimisation."},
+  {s:"On peut revendre le fichier à un partenaire sans prévenir personne.",a:false,w:"Jamais sans information ni base légale !"},
+  {s:"Un prospect peut demander à consulter ou supprimer ses données.",a:true,w:"Droit d'accès et droit à l'effacement."},
+  {s:"Une case de consentement pré-cochée, c'est parfait.",a:false,w:"Le consentement doit être un acte positif : la personne coche elle-même."},
+  {s:"On garde les données de prospects éternellement, « au cas où ».",a:false,w:"La durée de conservation doit être limitée."},
+  {s:"Le fichier de prospects s'envoie en pièce jointe non protégée à toute la boîte.",a:false,w:"Sécurité d'abord : accès limités, pas de fichiers qui traînent."},
+  {s:"Le prospect doit savoir à quoi serviront ses données.",a:true,w:"Transparence : on l'informe au moment de la collecte."}
+];
+
+/* ================= Stations & levels ================= */
+const ORDER=['source','clean','format','email','phone','civ','dedup','rgpd','route'];
+const STATIONS={
+  source:{icon:'🧭',short:'Source',name:'Détective de la provenance',evo:'Donnée tracée',
+    why:"Sans source, impossible de savoir quelle campagne rapporte. Le marketing pleure, le budget part en fumée.",
+    how:"Lis l'indice et devine d'où vient chaque donnée de la file. La dernière, c'est toi !"},
+  clean:{icon:'🚿',short:'Nettoyage',name:'Douche anti-parasites',evo:'Donnée rincée',
+    why:"Un « Dup#ont✨ » dans le CRM, c'est un e-mail « Bonjour M. Dup#ont✨ ». Ambiance.",
+    how:"Tape les caractères parasites pour les pulvériser. Accents, tirets et apostrophes sont de vraies lettres : on ne touche pas !"},
+  format:{icon:'💇',short:'Mise en forme',name:'Salon de mise en forme',evo:'Donnée coiffée',
+    why:"Des fiches homogènes, ce sont des recherches qui trouvent et des e-mails personnalisés qui ne font pas peur.",
+    how:"Choisis la bonne écriture pour chaque champ, selon la règle maison affichée."},
+  email:{icon:'📧',short:'E-mail',name:'Guichet des e-mails',evo:'Donnée joignable par e-mail',
+    why:"Une lettre de travers dans l'adresse, et l'e-mail part dans le néant. Le commercial attend une réponse qui ne viendra jamais.",
+    how:"Pour chaque adresse, choisis celle qu'on doit enregistrer : corrigée si elle est fausse, telle quelle si elle est bonne."},
+  phone:{icon:'📞',short:'Indicatif',name:"Standard de l'indicatif",evo:'Donnée joignable',
+    why:"Sans indicatif, le commercial appelle… un inconnu, ou personne. Avec, il appelle en un clic, même depuis l'étranger.",
+    how:"Trouve l'indicatif du pays, puis la bonne écriture internationale. Astuce : le 0 du début saute !"},
+  civ:{icon:'🎩',short:'Civilité',name:'Bureau des civilités',evo:'Donnée polie',
+    why:"« Bonjour Madame » à un Monsieur (ou l'inverse) : le rendez-vous commence mal.",
+    how:"Monsieur ou Madame ? Et quand le prénom est ambigu (Camille, Dominique…), on ne devine pas : « À vérifier »."},
+  dedup:{icon:'👯',short:'Doublons',name:'Chasse aux doublons',evo:'Donnée unique',
+    why:"Deux commerciaux qui appellent le même client le même jour : gênant pour tout le monde.",
+    how:"Tape les fiches qui sont TOI (même e-mail ou même téléphone, même écrits autrement). Méfie-toi des homonymes !"},
+  rgpd:{icon:'🛡️',short:'Consentement',name:'Porte du consentement',evo:'Donnée en règle',
+    why:"Une donnée sans consentement tracé, c'est une donnée qu'on n'a pas le droit d'exploiter.",
+    how:"Le gardien pose ses questions : vrai ou faux ?"},
+  route:{icon:'🔀',short:'Aiguillage',name:'Grand aiguillage',evo:'Lead qualifié',
+    why:"Le bon lead au bon commercial, c'est un rappel en 5 minutes au lieu de 5 jours.",
+    how:"Regarde le code postal (ou le pays) et envoie-toi au commercial du bon secteur."}
+};
+const LEVELS=[
+  {name:'Premier jour au CRM',st:['clean','format'],d:1,par:55},
+  {name:"Allô, y a quelqu'un ?",st:['clean','format','phone'],d:1,par:70},
+  {name:'Bonjour Madame, Monsieur',st:['clean','format','phone','civ'],d:1,par:90},
+  {name:"D'où tu viens, toi ?",st:['source','clean','format','phone','civ'],d:1,par:110},
+  {name:'@ la rescousse',st:['source','clean','format','email','phone','civ'],d:2,par:140},
+  {name:"L'attaque des clones",st:['source','clean','format','email','phone','civ','dedup'],d:2,par:160},
+  {name:'Le gardien du consentement',st:['source','clean','format','email','phone','civ','dedup','rgpd'],d:2,par:185},
+  {name:'Le grand aiguillage',st:ORDER,d:2,par:200},
+  {name:'Retour de salon',st:ORDER,d:3,par:200,src:'salon'},
+  {name:'Le fichier du stagiaire',st:ORDER,d:3,par:190,src:'import',boss:true}
+];
+const ACH=[
+  {id:'first',icon:'🎉',name:'Premier lead livré',desc:'Livre ton tout premier lead au commercial.'},
+  {id:'perfect',icon:'💎',name:'Zéro faute',desc:'Termine un niveau sans aucune erreur.'},
+  {id:'fast',icon:'⚡',name:'Éclair',desc:'Termine un niveau en moins de 45 secondes.'},
+  {id:'combo',icon:'🔥',name:'En feu',desc:'Atteins un combo de 10 bonnes réponses.'},
+  {id:'nodevine',icon:'🤔',name:'On ne devine pas',desc:'Marque « À vérifier » un prénom ambigu.'},
+  {id:'globe',icon:'🌍',name:'Globe-trotter',desc:"Trouve l'indicatif d'un numéro d'Outre-mer ou du Canada."},
+  {id:'detective',icon:'🕵️',name:'Détective',desc:'Chasse aux doublons sans la moindre erreur.'},
+  {id:'gold',icon:'👑',name:'Lead en or',desc:'Fais passer Brutus par les 9 étapes.'},
+  {id:'allstars',icon:'🌟',name:'Pipeline parfait',desc:'Décroche 3 étoiles sur les 10 niveaux.'},
+  {id:'rush10',icon:'🏎️',name:'Machine à leads',desc:'Livre 10 leads en Mode Rush.'}
+];
+const EVO_NAMES=['Donnée brute','Donnée qui se réveille','Donnée présentable','Donnée prometteuse','Donnée fiable','Donnée exploitable','Lead tiède','Lead chaud','Lead qualifié','Lead en or'];
+
+/* ================= Lead factory ================= */
+const dg=n=>Array.from({length:n},()=>rint(0,9)).join('');
+const grp=(s,sizes)=>{const o=[];let i=0;for(const z of sizes){o.push(s.slice(i,i+z));i+=z}return o.filter(Boolean).join(' ')};
+function genPhone(c){
+  let sub,zero=true,sz;
+  switch(c){
+    case 'fr':sub=rnd(['6','7','1','2','9'])+dg(8);sz=[1,2,2,2,2];break;
+    case 'be':sub='4'+rnd(['7','8','9'])+dg(7);sz=[3,2,2,2];break;
+    case 'ch':sub='7'+rnd(['6','8','9'])+dg(7);sz=[2,3,2,2];break;
+    case 'mq':sub='696'+dg(6);sz=[3,2,2,2];break;
+    case 're':sub='692'+dg(6);sz=[3,2,2,2];break;
+    case 'es':sub='6'+dg(8);sz=[3,2,2,2];zero=false;break;
+    case 'ca':sub=rnd(['514','438','418'])+'555'+dg(4);sz=[3,3,4];zero=false;break;
+  }
+  const code=CTRY[c].code;
+  return {c,sub,zero,sz,code,nat:(zero?'0':'')+sub,intl:code+' '+grp(sub,sz)};
+}
+function rawPhone(p){
+  if(p.c==='ca')return `(${p.sub.slice(0,3)}) ${p.sub.slice(3,6)}-${p.sub.slice(6)}`;
+  if(p.c==='es')return grp(p.nat,[3,2,2,2]).replace(/ /g,rnd([' ','.','']));
+  return grp(p.nat,[2,2,2,2,2]).replace(/ /g,rnd(['.',' ','-','']));
+}
+function mkEmail(pr,no){
+  const l=noAcc(pr).toLowerCase().replace(/[^a-z]/g,''),n=noAcc(no).toLowerCase().replace(/[^a-z]/g,'');
+  const local=rnd([l+'.'+n,l[0]+n,l+n+rint(1,99),l+'_'+n,l+'.'+n]);
+  return local+'@'+rnd(Math.random()<.72?DOMAINS:PRO_DOMAINS);
+}
+function placesFor(d){return d===1?PLACES.filter(p=>p.c==='fr'):d===2?PLACES.filter(p=>['fr','be','ch','es'].includes(p.c)):PLACES}
+function makePerson(d,src,g){
+  g=g||rnd(['M','F']);
+  const prenom=rnd(g==='M'?PM:PF),nom=rnd(NOMS),place=rnd(placesFor(d));
+  src=src||rnd(Object.keys(SOURCES));
+  return {g,prenom,nom,place,phone:genPhone(place.c),email:mkEmail(prenom,nom),src,clue:rnd(CLUES[src])};
+}
+function inject(s,n){const a=Array.from(s);for(let i=0;i<n;i++)a.splice(rint(0,a.length),0,rnd(JUNK));return a.join('')}
+function makeLead(level){
+  const d=level.d,p=makePerson(d,level.src);
+  const junk=d===1?2:d===2?3:4;
+  const prenomC=messCase(p.prenom),nomC=messCase(p.nom);
+  const typo=level.st.includes('email')?typoOf(p.email):null;
+  const emailBase=typo?typo.t(p.email):p.email;
+  return {p,level,typo,
+    raw:{prenomJ:inject(prenomC,Math.ceil(junk/2)),nomJ:inject(nomC,Math.floor(junk/2)+(d>1?1:0)),prenomC,nomC,
+      emailBase,emailMess:messCase(emailBase),villeC:messCase(p.place.v),tel:rawPhone(p.phone)},
+    done:new Set(),cleaned:new Set(),formatted:new Set(),civ:null,sales:SALES[p.place.z]};
+}
+const CIVL={M:'Monsieur',F:'Madame',A:'À vérifier'};
+const CIVS={M:'M.',F:'Mme',A:'?'};
+
+function ficheRows(L){
+  const has=k=>L.level.st.includes(k),D=L.done,F=L.formatted,C=L.cleaned;
+  const st=(fixed,key)=>fixed?'ok':has(key)?'bad':'na';
+  const prenom=F.has('prenom')?L.p.prenom:C.has('prenom')?L.raw.prenomC:L.raw.prenomJ;
+  const nom=F.has('nom')?L.p.nom.toUpperCase():C.has('nom')?L.raw.nomC:L.raw.nomJ;
+  const email=D.has('email')?L.p.email:F.has('email')?L.raw.emailBase.toLowerCase():L.raw.emailMess;
+  const rows=[
+    {k:'civ',l:'Civilité',v:L.civ?CIVL[L.civ]:'—',s:st(!!L.civ,'civ')},
+    {k:'prenom',l:'Prénom',v:prenom,s:F.has('prenom')?'ok':(has('clean')||has('format'))?'bad':'na'},
+    {k:'nom',l:'Nom',v:nom,s:F.has('nom')?'ok':(has('clean')||has('format'))?'bad':'na'},
+    {k:'email',l:'E-mail',v:email,s:(D.has('email')||(F.has('email')&&!has('email')))?'ok':(has('email')||has('format'))?'bad':'na'},
+    {k:'tel',l:'Téléphone',v:D.has('phone')?L.p.phone.intl:L.raw.tel,s:st(D.has('phone'),'phone')},
+    {k:'ville',l:'Ville',v:L.p.place.cp+' '+(F.has('ville')?L.p.place.v:L.raw.villeC),s:F.has('ville')?'ok':has('format')?'bad':'na'},
+    {k:'source',l:'Source',v:D.has('source')?SOURCES[L.p.src].label:'???',s:st(D.has('source'),'source')}
+  ];
+  if(has('dedup'))rows.push({k:'dedup',l:'Doublons',v:D.has('dedup')?'Fusionnés ✓':'⚠ Fiches en double',s:st(D.has('dedup'),'dedup')});
+  if(has('rgpd'))rows.push({k:'rgpd',l:'Consentement',v:D.has('rgpd')?'Oui · date et source tracées':'Non vérifié',s:st(D.has('rgpd'),'rgpd')});
+  rows.push({k:'route',l:'Commercial',v:D.has('route')?L.sales.name+' · '+L.sales.zone:'—',s:st(D.has('route'),'route')});
+  return rows;
+}
+function rawRows(L){
+  return [
+    {l:'Civilité',v:'—'},{l:'Prénom',v:L.raw.prenomJ},{l:'Nom',v:L.raw.nomJ},{l:'E-mail',v:L.raw.emailMess},
+    {l:'Téléphone',v:L.raw.tel},{l:'Ville',v:L.p.place.cp+' '+L.raw.villeC},{l:'Source',v:'???'},{l:'Commercial',v:'—'}
+  ];
+}
+
+/* ================= Characters ================= */
+let UID=0;
+const BODY='M80 34 C118 34 134 64 134 102 C134 140 112 160 80 160 C48 160 26 140 26 102 C26 64 42 34 80 34 Z';
+function isGold(L){return L&&L.level.st.length===ORDER.length&&L.done.size===ORDER.length}
+function brutusSVG(L,o={}){
+  const u=++UID,D=L?L.done:new Set(),st=L?L.level.st:[];
+  const clean=D.has('clean'),fmt=D.has('format'),gold=isGold(L)||o.gold;
+  const fill=gold?`url(#gg${u})`:clean?`url(#gc${u})`:'#a8977c';
+  const stroke=clean?'#231942':'#5c4d3c';
+  const twin=st.includes('dedup')&&!D.has('dedup');
+  const civ=L&&L.civ;
+  let s=`<svg viewBox="0 -8 160 190" class="brutus ${clean?'':'raw'}" aria-label="Brutus">
+  <defs>
+    <linearGradient id="gc${u}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9a86ff"/><stop offset="1" stop-color="#4fd1c5"/></linearGradient>
+    <linearGradient id="gg${u}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff08a"/><stop offset=".5" stop-color="#ffc93c"/><stop offset="1" stop-color="#ff9f1c"/></linearGradient>
+  </defs>
+  <ellipse cx="80" cy="172" rx="44" ry="7" fill="rgba(35,25,66,.14)"/>`;
+  if(twin)s+=`<g class="twin" opacity=".35"><path d="${BODY}" transform="translate(24 4)" fill="#b9a98f" stroke="#7a6a55" stroke-width="3" stroke-dasharray="6 5"/></g>`;
+  s+=`<g class="bob">
+  <ellipse cx="62" cy="163" rx="13" ry="7" fill="${stroke}"/><ellipse cx="98" cy="163" rx="13" ry="7" fill="${stroke}"/>
+  <path d="M32 102 Q14 106 18 126" stroke="${stroke}" stroke-width="8" fill="none" stroke-linecap="round"/>
+  <path d="M128 102 Q146 106 142 126" stroke="${stroke}" stroke-width="8" fill="none" stroke-linecap="round"/>
+  <path d="${BODY}" fill="${fill}" stroke="${stroke}" stroke-width="3.5"/>`;
+  if(!clean){
+    s+=`<circle cx="52" cy="124" r="8" fill="#7d6c55" opacity=".55"/><circle cx="108" cy="132" r="6" fill="#7d6c55" opacity=".55"/>
+    <circle cx="96" cy="58" r="5" fill="#7d6c55" opacity=".5"/><circle cx="44" cy="92" r="4" fill="#7d6c55" opacity=".5"/>
+    <g class="stink" stroke="#8a9a5b" stroke-width="3" fill="none" stroke-linecap="round" opacity=".7">
+      <path d="M22 60 q-6 -8 0 -16 q6 -8 0 -16"/><path d="M140 56 q-6 -8 0 -16 q6 -8 0 -16"/></g>`;
+  }else{
+    s+=`<ellipse cx="68" cy="66" rx="18" ry="10" fill="#fff" opacity=".28" transform="rotate(-20 68 66)"/>`;
+  }
+  // hair
+  s+=fmt?`<path d="M46 60 C46 30 80 20 104 30 C118 36 122 50 118 60 C108 44 88 38 70 45 C60 49 52 54 46 60 Z" fill="#231942"/>`
+        :`<path d="M50 44 l6 -16 l6 12 l5 -18 l6 14 l6 -17 l5 15 l6 -14 l6 14 l5 -12" stroke="#4a3b2a" stroke-width="4" fill="none" stroke-linejoin="round"/>`;
+  // eyes
+  if(fmt||clean&&!st.includes('format')){
+    s+=`<circle cx="64" cy="88" r="12" fill="#fff" stroke="#231942" stroke-width="3"/><circle cx="96" cy="88" r="12" fill="#fff" stroke="#231942" stroke-width="3"/>
+    <circle cx="66" cy="90" r="5.5" fill="#231942"/><circle cx="98" cy="90" r="5.5" fill="#231942"/>
+    <circle cx="68" cy="87" r="2" fill="#fff"/><circle cx="100" cy="87" r="2" fill="#fff"/>`;
+  }else{
+    s+=`<circle cx="62" cy="86" r="12" fill="#fff" stroke="${stroke}" stroke-width="3"/><circle cx="58" cy="92" r="5" fill="#231942"/>
+    <circle cx="98" cy="90" r="7" fill="#fff" stroke="${stroke}" stroke-width="3"/><circle cx="100" cy="91" r="3" fill="#231942"/>
+    <path d="M90 86 Q98 80 106 87" fill="${fill}" stroke="${stroke}" stroke-width="3"/>`;
+  }
+  // mouth
+  if(gold)s+=`<path d="M62 108 Q80 134 98 108 Z" fill="#231942"/><path d="M72 120 Q80 128 88 120 Q80 116 72 120Z" fill="#ff7a8a"/>`;
+  else if(fmt)s+=`<path d="M66 110 Q80 124 94 110" stroke="#231942" stroke-width="3.5" fill="none" stroke-linecap="round"/>`;
+  else if(clean)s+=`<path d="M68 114 Q80 118 92 112" stroke="#231942" stroke-width="3.5" fill="none" stroke-linecap="round"/>`;
+  else s+=`<path d="M64 116 q5 -6 10 0 t10 0 t10 0" stroke="${stroke}" stroke-width="3.5" fill="none" stroke-linecap="round"/>`;
+  // civility
+  if(civ){
+    s+=`<circle cx="50" cy="106" r="6" fill="#ff8fa3" opacity=".6"/><circle cx="110" cy="106" r="6" fill="#ff8fa3" opacity=".6"/>
+    <path d="M80 131 L66 123 L66 139 Z M80 131 L94 123 L94 139 Z" fill="#ff5d6c" stroke="#231942" stroke-width="2"/><circle cx="80" cy="131" r="4" fill="#231942"/>
+    <rect x="62" y="142" width="36" height="13" rx="4" fill="#fff" stroke="#231942" stroke-width="2"/>
+    <text x="80" y="152" text-anchor="middle" font-size="9" font-weight="800" font-family="Nunito" fill="#231942">${CIVS[civ]}</text>`;
+  }
+  if(D.has('source')){
+    s+=`<circle cx="120" cy="66" r="13" fill="#ffc93c" stroke="#231942" stroke-width="2.5"/>
+    <text x="120" y="71" text-anchor="middle" font-size="13">${SOURCES[L.p.src].icon}</text>`;
+  }
+  if(D.has('rgpd')){
+    s+=`<path d="M42 120 l11 4 v9 c0 7 -5 11 -11 13 c-6 -2 -11 -6 -11 -13 v-9 z" fill="#19c39c" stroke="#231942" stroke-width="2.5"/>
+    <path d="M37 132 l4 4 l7 -8" stroke="#fff" stroke-width="2.5" fill="none" stroke-linecap="round"/>`;
+  }
+  // hands & props
+  if(D.has('email')){
+    s+=`<g transform="rotate(-10 18 128)"><rect x="4" y="118" width="28" height="19" rx="3" fill="#fff" stroke="#231942" stroke-width="2.5"/>
+    <path d="M4 119 L18 130 L32 119" stroke="#231942" stroke-width="2.5" fill="none"/></g>`;
+  }
+  if(D.has('phone')){
+    s+=`<rect x="133" y="108" width="18" height="30" rx="4" fill="#231942"/><rect x="136" y="112" width="12" height="20" rx="2" fill="#7ee8c8"/>
+    <text x="142" y="125" text-anchor="middle" font-size="6.5" font-weight="800" font-family="Nunito" fill="#231942">${L.p.phone.code}</text>`;
+  }
+  if(D.has('route')){
+    s+=`<rect x="112" y="146" width="28" height="19" rx="4" fill="#8b5a2b" stroke="#231942" stroke-width="2.5"/>
+    <path d="M120 146 v-5 h12 v5" stroke="#231942" stroke-width="2.5" fill="none"/><rect x="124" y="153" width="4" height="4" fill="#ffc93c"/>`;
+  }
+  if(gold){
+    s+=`<path d="M58 36 L62 14 L72 26 L80 8 L88 26 L98 14 L102 36 Z" fill="#ffd34d" stroke="#231942" stroke-width="2.5" stroke-linejoin="round"/>
+    <circle cx="80" cy="24" r="3" fill="#ff5d6c"/>`;
+  }
+  s+=`</g>`;
+  if(!clean){
+    s+=`<g class="orbit" font-family="Baloo 2,Nunito" font-weight="800" font-size="18" fill="#7a6a55">
+      <text x="80" y="18" text-anchor="middle">#</text><text x="152" y="104" text-anchor="middle">%</text>
+      <text x="8" y="104" text-anchor="middle">¤</text><text x="130" y="44">*</text><text x="22" y="164">@</text></g>`;
+  }
+  if(gold){
+    s+=`<g fill="#ffc93c"><path class="spark" d="M20 40 l3 8 l8 3 l-8 3 l-3 8 l-3 -8 l-8 -3 l8 -3 z"/>
+    <path class="spark" style="animation-delay:.3s" d="M140 30 l2 6 l6 2 l-6 2 l-2 6 l-2 -6 l-6 -2 l6 -2 z"/>
+    <path class="spark" style="animation-delay:.6s" d="M148 150 l2 6 l6 2 l-6 2 l-2 6 l-2 -6 l-6 -2 l6 -2 z"/></g>`;
+  }
+  return s+`</svg>`;
+}
+function salesSVG(S,pose='wait'){
+  const joy=pose==='joy';
+  const armL=joy?'rotate(140 34 72)':'rotate(8 34 72)', armR=joy?'rotate(-140 86 72)':'rotate(-8 86 72)';
+  const hair=S.long
+    ?`<path d="M36 40 C34 12 86 8 84 40 L88 70 Q80 64 78 44 Q60 30 42 44 Q40 64 32 70 Z" fill="${S.hair}"/>`
+    :`<path d="M38 34 C40 10 82 10 82 32 Q70 22 56 26 Q46 28 38 34 Z" fill="${S.hair}"/>`;
+  return `<svg viewBox="0 -30 120 200" class="sales ${pose}" aria-label="${S.name}">
+  <ellipse cx="60" cy="164" rx="32" ry="5" fill="rgba(35,25,66,.14)"/>
+  <rect x="44" y="118" width="13" height="40" rx="6" fill="#2b2d42"/><rect x="63" y="118" width="13" height="40" rx="6" fill="#2b2d42"/>
+  <rect x="38" y="152" width="21" height="9" rx="4.5" fill="#111"/><rect x="61" y="152" width="21" height="9" rx="4.5" fill="#111"/>
+  <g transform="${armL}"><rect x="28" y="70" width="12" height="44" rx="6" fill="${S.color}"/><circle cx="34" cy="116" r="7" fill="${S.skin}"/></g>
+  <g transform="${armR}"><rect x="80" y="70" width="12" height="44" rx="6" fill="${S.color}"/><circle cx="86" cy="116" r="7" fill="${S.skin}"/>
+    ${joy?'':`<rect x="80" y="112" width="13" height="15" rx="3" fill="#fff" stroke="#231942" stroke-width="2"/><g class="steam" stroke="#b9b1a4" stroke-width="2" fill="none"><path d="M84 108 q-3 -5 0 -10"/><path d="M89 108 q-3 -5 0 -10"/></g>`}</g>
+  <path d="M34 68 Q60 58 86 68 L90 124 Q60 130 30 124 Z" fill="${S.color}" stroke="#231942" stroke-width="2.5"/>
+  <path d="M52 64 L60 92 L68 64 Z" fill="#fff"/>
+  <path d="M58 68 L62 68 L64 92 L60 98 L56 92 Z" fill="#231942"/>
+  <rect x="54" y="52" width="12" height="12" fill="${S.skin}"/>
+  <circle cx="60" cy="38" r="22" fill="${S.skin}" stroke="#231942" stroke-width="2.5"/>
+  ${hair}
+  ${joy
+    ?`<path d="M48 36 q4 -6 8 0 M64 36 q4 -6 8 0" stroke="#231942" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M50 46 Q60 60 70 46 Z" fill="#231942"/>`
+    :`<path d="M48 38 h8 M64 38 h8" stroke="#231942" stroke-width="3" stroke-linecap="round"/><path d="M53 50 Q60 46 67 50" stroke="#231942" stroke-width="3" fill="none" stroke-linecap="round"/><path class="sweat" d="M80 26 q3 5 0 7 q-3 -2 0 -7" fill="#4fb3ff"/>`}
+  ${joy?'<g fill="#ffc93c" font-size="14"><text x="0" y="-8">★</text><text x="104" y="-4">★</text><text x="96" y="-20">✦</text></g>':''}
+  </svg>`;
+}
+
+/* ================= UI helpers ================= */
+function show(id){$$('.screen').forEach(s=>s.classList.toggle('on',s.id==='scr-'+id));window.scrollTo(0,0)}
+function toast(msg,type=''){
+  const t=document.createElement('div');t.className='toast '+type;t.innerHTML=msg;
+  const box=$('#toasts');box.appendChild(t);
+  while(box.children.length>3)box.firstChild.remove();
+  setTimeout(()=>{t.classList.add('out');setTimeout(()=>t.remove(),300)},type==='bad'?3400:2600);
+}
+function floatText(el,txt,color){
+  if(!el)return;const r=el.getBoundingClientRect();
+  const f=document.createElement('div');f.className='float';f.textContent=txt;if(color)f.style.color=color;
+  f.style.left=(r.left+r.width/2-20)+'px';f.style.top=(r.top-6)+'px';document.body.appendChild(f);setTimeout(()=>f.remove(),900);
+}
+function shake(el){if(!el)return;el.classList.remove('shake');void el.offsetWidth;el.classList.add('shake')}
+function modal(html){$('#modal').innerHTML=html;$('#overlay').classList.add('on')}
+function closeModal(){$('#overlay').classList.remove('on')}
+function unlock(id){
+  if(SAVE.ach.includes(id))return;
+  SAVE.ach.push(id);persist();const a=ACH.find(x=>x.id===id);
+  setTimeout(()=>toast(`🏅 Succès débloqué : ${a.icon} <b>${a.name}</b>`,'ach'),400);
+}
+/* confetti */
+const CF={parts:[],run:false};
+function confetti(n=160,x){
+  const c=$('#confetti');c.width=innerWidth;c.height=innerHeight;
+  const cols=['#6c4df6','#19c39c','#ff5d6c','#ffc93c','#4fb3ff'];
+  for(let i=0;i<n;i++)CF.parts.push({x:x??innerWidth/2,y:innerHeight*.35,vx:(Math.random()-.5)*16,vy:-Math.random()*14-4,r:Math.random()*6+4,c:rnd(cols),a:Math.random()*6,va:(Math.random()-.5)*.4,life:0});
+  if(!CF.run){CF.run=true;requestAnimationFrame(cfStep)}
+}
+function cfStep(){
+  const c=$('#confetti'),g=c.getContext('2d');g.clearRect(0,0,c.width,c.height);
+  CF.parts=CF.parts.filter(p=>p.y<c.height+20&&p.life<260);
+  for(const p of CF.parts){p.vy+=.35;p.vx*=.99;p.x+=p.vx;p.y+=p.vy;p.a+=p.va;p.life++;
+    g.save();g.translate(p.x,p.y);g.rotate(p.a);g.fillStyle=p.c;g.fillRect(-p.r/2,-p.r/4,p.r,p.r/2);g.restore();}
+  if(CF.parts.length)requestAnimationFrame(cfStep);else{CF.run=false;g.clearRect(0,0,c.width,c.height)}
+}
+
+/* ================= Game engine ================= */
+let G=null;
+const GRUMBLES=["J'attends mon lead…","☕ 4e café…","Toujours rien ?","Allez, allez !","Mon quota ne va pas se faire tout seul…","Il est où ce lead ?!","Je tapote mon bureau…"];
+function startLevel(idx){
+  const level=LEVELS[idx];
+  stopGame();
+  G={mode:'level',idx,level,L:makeLead(level),i:0,score:0,combo:0,maxCombo:0,errors:0,stErr:0,elapsed:0,last:performance.now(),token:Symbol()};
+  G.timer=setInterval(tick,250);
+  show('game');
+  $('#hud-lvl').textContent=`Niveau ${idx+1}${level.boss?' · Boss':''}`;
+  $('#hud-name').textContent=level.name;
+  renderAll();
+  const first=!SAVE.stars[idx];
+  const newSt=level.st.filter(k=>!LEVELS.slice(0,idx).some(l=>l.st.includes(k)));
+  modal(`<div class="ic">${level.boss?'😱':'📥'}</div><div class="kick">Niveau ${idx+1}</div><h2>${esc(level.name)}</h2>
+    <div class="why">${levelStory(idx)}</div>
+    ${newSt.length&&first?`<div class="how"><b>Nouveau :</b> ${newSt.map(k=>STATIONS[k].icon+' '+STATIONS[k].short).join(', ')}</div>`:''}
+    <div class="how">${level.st.length} étapes avant le commercial${level.d>=3?' · <b>chrono serré ⏱</b>':''}.</div>
+    <button class="btn mint" id="go">C'est parti !</button>`);
+  $('#go').onclick=()=>{closeModal();G.last=performance.now();nextStation()};
+  G.paused=true;
+}
+function levelStory(i){
+  return [
+    "Brutus vient d'atterrir dans le CRM. Il est… disons… <b>brut</b>. Des caractères bizarres partout, des majuscules au hasard. Le commercial ne peut pas envoyer ça !",
+    "Le commercial veut <b>appeler</b> Brutus. Encore faut-il que son numéro soit au bon format.",
+    "« Bonjour Madame… euh… Monsieur ? » Aide Brutus à trouver sa <b>civilité</b>.",
+    "Personne ne sait d'où vient Brutus. Le marketing mène l'enquête : quelle est sa <b>source</b> ?",
+    "Brutus a une adresse e-mail… avec une <b>faute de frappe</b>. Les leads arrivent maintenant aussi de Belgique, de Suisse et d'Espagne !",
+    "Horreur : Brutus a des <b>clones</b> dans le CRM ! Fusionne-les, mais attention aux homonymes.",
+    "Le gardien du <b>consentement</b> bloque le passage. Réponds juste pour passer.",
+    "Le parcours complet ! Tout en bas : le <b>grand aiguillage</b> vers le bon commercial.",
+    "Retour de <b>salon</b> : les cartes de visite débarquent du monde entier (DOM, Canada…). Et chaque question est <b>chronométrée</b> !",
+    "<b>BOSS FINAL</b> : « prospects_FINAL_v3_ok.xlsx », le fichier du stagiaire. Tout est chronométré, tout est piégé. Bonne chance."
+  ][i];
+}
+function stopGame(){if(G){clearInterval(G.timer);G.token=null;clearInterval(G.grumbleT);G=null}closeModal()}
+function tick(){
+  if(!G)return;const now=performance.now(),dt=(now-G.last)/1000;G.last=now;
+  if(G.paused)return;
+  G.elapsed+=dt;
+  if(G.mode==='rush'){
+    G.timeLeft-=dt;
+    if(G.timeLeft<=10&&Math.ceil(G.timeLeft)!==G.lastBeep){G.lastBeep=Math.ceil(G.timeLeft);SFX.tick()}
+    if(G.timeLeft<=0){G.timeLeft=0;updateHud();return endRush()}
+  }
+  updateHud();
+}
+function updateHud(){
+  if(!G)return;
+  const t=$('#hud-time');
+  if(G.mode==='rush'){t.textContent='⏱ '+fmtTime(G.timeLeft);t.classList.toggle('hot',G.timeLeft<=10)}
+  else{t.textContent='⏱ '+fmtTime(G.elapsed);t.classList.remove('hot')}
+  $('#hud-score').textContent=G.mode==='rush'?`📦 ${G.delivered} · ⭐ ${G.score}`:'⭐ '+G.score;
+  const c=$('#hud-combo');
+  if(G.combo>=3){if(!c.classList.contains('on')||c.dataset.v!=G.combo){c.classList.remove('on');void c.offsetWidth;c.classList.add('on')}c.dataset.v=G.combo;c.textContent=`🔥 x${G.combo}`}
+  else c.classList.remove('on');
+}
+function renderAll(){renderPipeline();renderChar();renderFiche();updateHud()}
+function renderPipeline(){
+  const st=G.level.st,S=G.L.sales;
+  let h='';
+  st.forEach((k,i)=>{
+    const cls=i<G.i?'done':i===G.i?'cur':'';
+    h+=`<div class="node ${cls}">${i===G.i?`<div class="me">${brutusSVG(G.L)}</div>`:''}<div class="dot">${i<G.i?'✓':STATIONS[k].icon}</div><small>${STATIONS[k].short}</small></div><div class="link ${i<G.i?'done':''}"></div>`;
+  });
+  h+=`<div class="node boss ${G.i>=st.length?'cur':''}"><div class="dot">💼</div><small>${G.L.done.has('route')?S.name:'Commercial'}</small></div>`;
+  $('#pipeline').innerHTML=h;
+  const cur=$('#pipeline .node.cur');if(cur)cur.scrollIntoView({block:'nearest',inline:'center',behavior:'smooth'});
+  let g=$('.pipe-wrap .grumble');
+  if(!g){g=document.createElement('div');g.className='bubble grumble';$('.pipe-wrap').appendChild(g)}
+  g.textContent=rnd(GRUMBLES);
+}
+function stage(L){
+  const n=L.done.size;
+  if(isGold(L))return 9;
+  return Math.min(8,Math.round(n/L.level.st.length*(L.level.st.length===9?8:Math.min(8,L.level.st.length+2))));
+}
+function renderChar(evolve){
+  const L=G.L,w=$('#char');w.innerHTML=brutusSVG(L);
+  if(evolve){w.classList.remove('evolve');void w.offsetWidth;w.classList.add('evolve')}
+  const s=stage(L);
+  $('#evo-lvl').textContent=`Stade ${s}`;
+  $('#evo-name').textContent=EVO_NAMES[s];
+  const q=Math.round(L.done.size/L.level.st.length*100);
+  $('#q-bar').style.width=q+'%';$('#q-pct').textContent=q+'%';
+}
+function ficheHTML(rows,title,sub){
+  return `<h4>🗂️ ${title}${sub?`<span>${sub}</span>`:''}</h4>`+rows.map(r=>`<div class="frow ${r.s||''}" data-k="${r.k||''}"><span class="k">${r.l}</span><span class="v">${esc(r.v)}</span></div>`).join('');
+}
+function renderFiche(flash=[]){
+  $('#fiche').innerHTML=ficheHTML(ficheRows(G.L),'Fiche CRM de Brutus','en direct');
+  flash.forEach(k=>{const r=$(`#fiche .frow[data-k="${k}"]`);if(r)r.classList.add('flash')});
+}
+function nextStation(){
+  if(!G)return;
+  const key=G.level.st[G.i];
+  renderPipeline();
+  if(!key)return G.mode==='rush'?rushDelivered():arrive();
+  const S=STATIONS[key];
+  $('#st-icon').textContent=S.icon;$('#st-name').textContent=S.name;$('#st-how').textContent=S.how;
+  $('#area').innerHTML='';
+  G.stErr=0;
+  const seenKey='seen_'+key;
+  if(G.mode==='level'&&!SAVE[seenKey]){
+    G.paused=true;
+    modal(`<div class="ic">${S.icon}</div><div class="kick">Nouvelle étape</div><h2>${S.name}</h2>
+      <div class="why"><b>Pourquoi c'est important ?</b><br>${S.why}</div><div class="how"><b>Comment jouer :</b> ${S.how}</div>
+      <button class="btn mint" id="go">Compris !</button>`);
+    $('#go').onclick=()=>{SAVE[seenKey]=1;persist();closeModal();G.paused=false;G.last=performance.now();play(key)};
+  }else{G.paused=false;play(key)}
+}
+function play(key){
+  const tok=G.token,area=$('#area');
+  const api={
+    key,L:G.L,diff:G.level.d,rush:G.mode==='rush',
+    alive:()=>G&&G.token===tok,
+    good(el,info){
+      if(!api.alive())return;
+      G.combo++;G.maxCombo=Math.max(G.maxCombo,G.combo);
+      if(G.combo>=10)unlock('combo');
+      const mult=Math.min(3,1+Math.floor(G.combo/3)*.5),pts=Math.round(100*mult);
+      G.score+=pts;SFX.good(Math.min(G.combo,10));floatText(el,'+'+pts);
+      if(info)toast(info,'info');
+      updateHud();
+    },
+    bad(el,msg){
+      if(!api.alive())return;
+      G.errors++;G.stErr++;G.combo=0;G.score=Math.max(0,G.score-40);SFX.bad();shake(el);
+      if(msg)toast('❌ '+msg,'bad');
+      if(G.mode==='rush'){G.timeLeft=Math.max(0,G.timeLeft-3);floatText($('#hud-time'),'-3 s','#ff5d6c')}
+      else floatText(el,'-40','#ff5d6c');
+      updateHud();
+    },
+    refresh(flash){if(api.alive()){renderFiche(flash);renderChar()}},
+    done(){
+      if(!api.alive())return;
+      G.L.done.add(key);
+      if(key==='dedup'&&G.stErr===0)unlock('detective');
+      SFX.evolve();renderChar(true);renderFiche(fieldsOf(key));
+      const b=document.createElement('div');b.className='evo-banner';b.textContent='✨ '+STATIONS[key].evo+' !';$('#station').appendChild(b);setTimeout(()=>b.remove(),1150);
+      G.i++;
+      setTimeout(()=>{if(api.alive())nextStation()},G.mode==='rush'?700:1150);
+    }
+  };
+  STATIONS[key].play(area,api);
+}
+function fieldsOf(k){return {civ:['civ'],phone:['tel'],email:['email'],source:['source'],dedup:['dedup'],rgpd:['rgpd'],route:['route'],clean:['prenom','nom'],format:['prenom','nom','email','ville']}[k]||[]}
+
+/* Keyboard shortcuts for choices */
+document.addEventListener('keydown',e=>{
+  if($('#overlay').classList.contains('on')){if(e.key==='Enter'){const b=$('#modal .btn');if(b)b.click()}return}
+  if(!$('#scr-game').classList.contains('on'))return;
+  const n=parseInt(e.key,10);
+  if(n>=1&&n<=9){const c=$$('#area .choice:not([disabled])')[n-1]||null;const all=$$('#area .choice');const t=all[n-1];if(t&&!t.disabled)t.click()}
+});
+
+/* ---------- generic rounds ---------- */
+function rounds(area,api,list,opts={}){
+  let i=0,timer=null;
+  const timed=opts.timed!==false&&api.diff>=3&&!api.rush;
+  const next=()=>{
+    clearInterval(timer);
+    if(!api.alive())return;
+    if(i>=list.length)return api.done();
+    const r=list[i];
+    area.innerHTML=`<div class="rnd-head">${list.length>1?`<span class="rnd-count">${i+1}/${list.length}</span>`:''}${r.isLead?`<span class="me-tag">C'est toi, Brutus !</span>`:''}</div>
+      <div class="prompt pop">${r.prompt}</div>
+      <div class="choices ${r.cls||opts.cls||''}">${r.choices.map((c,k)=>`<button class="choice ${c.mono?'mono':''}" data-k="${k}">${c.html}</button>`).join('')}</div>
+      ${timed?'<div class="tbar"><i></i></div>':''}`;
+    let locked=false;
+    const finish=()=>{i++;setTimeout(next,480)};
+    if(timed){
+      const T=r.time||9,t0=performance.now(),bar=$('.tbar i',area);
+      timer=setInterval(()=>{
+        if(!api.alive()||G.paused)return;
+        const p=1-(performance.now()-t0)/(T*1000);bar.style.width=Math.max(0,p*100)+'%';
+        if(p<=0){clearInterval(timer);if(locked)return;locked=true;
+          const k=r.choices.findIndex(c=>c.ok);const btn=$$('.choice',area)[k];btn.classList.add('reveal');
+          api.bad(btn,'Temps écoulé ! '+((r.choices.find(c=>!c.ok&&c.why)||{}).why||''));
+          r.onOk&&r.onOk();setTimeout(()=>{i++;next()},1300)}
+      },80);
+    }
+    $$('.choice',area).forEach(b=>b.onclick=()=>{
+      if(locked)return;const c=r.choices[+b.dataset.k];
+      if(c.ok){locked=true;clearInterval(timer);b.classList.add('right');api.good(b,r.info);r.onOk&&r.onOk();finish()}
+      else{b.classList.add('wrong');b.disabled=true;api.bad(b,c.why)}
+    });
+  };
+  next();
+}
+const nRounds=(api,base)=>api.rush?2:base+api.diff;
+
+/* ---------- SOURCE ---------- */
+STATIONS.source.play=(area,api)=>{
+  const L=api.L,keys=Object.keys(SOURCES),list=[];
+  const mk=(src,clue,isLead)=>({isLead,prompt:`<div class="clue">🔎 ${esc(clue)}</div><p class="q">D'où vient cette donnée ?</p>`,
+    choices:keys.map(k=>({html:`<span class="ci">${SOURCES[k].icon}</span><span>${SOURCES[k].label}<span class="sub">${SOURCES[k].sub}</span></span>`,ok:k===src,
+      why:`« ${clue} » → c'est « ${SOURCES[src].label} » !`}))});
+  const n=nRounds(api,1);
+  for(let k=0;k<n-1;k++){const s=rnd(keys);list.push(mk(s,rnd(CLUES[s]),false))}
+  list.push(mk(L.p.src,L.p.clue,true));
+  rounds(area,api,list,{cls:'three'});
+};
+
+/* ---------- CLEAN ---------- */
+STATIONS.clean.play=(area,api)=>{
+  const L=api.L;
+  const fields=[['prenom','Prénom',L.raw.prenomJ],['nom','Nom',L.raw.nomJ]];
+  let drops='';for(let i=0;i<14;i++)drops+=`<i class="drop" style="left:${rint(0,100)}%;animation-delay:${Math.random()}s;animation-duration:${.7+Math.random()*.6}s"></i>`;
+  area.innerHTML=`<div class="shower">${drops}</div><div class="prompt" style="position:relative"><p class="q" style="margin:0">Pulvérise les parasites ! 🧽 <span id="junk-left"></span></p></div>`+
+    fields.map(([k,lab,val])=>`<div class="clean-field" data-f="${k}"><div class="lab">${lab}</div><div class="tiles">${Array.from(val).map(ch=>
+      ch===' '?'<span class="tile sp"></span>':`<button class="tile" data-j="${JUNK.includes(ch)?1:0}" data-ch="${esc(ch)}">${esc(ch)}</button>`).join('')}</div></div>`).join('');
+  const left=()=>$$('.tile[data-j="1"]:not(.gone)',area).length;
+  const upd=()=>{$('#junk-left',area).textContent=`— encore ${left()}`};upd();
+  $$('.tile[data-ch]',area).forEach(t=>t.onclick=()=>{
+    if(t.dataset.j==='1'){
+      t.classList.add('gone');SFX.zap();api.good(t);
+      const f=t.closest('.clean-field');
+      if(!$$('.tile[data-j="1"]:not(.gone)',f).length){L.cleaned.add(f.dataset.f);api.refresh([f.dataset.f])}
+      upd();if(!left())setTimeout(api.done,350);
+    }else{
+      const ch=t.dataset.ch;
+      const why=/[-']/.test(ch)?`Le « ${ch} » fait partie du nom (Jean-Pierre, N'Diaye…) : on le garde !`
+        :/[À-ÿ]/.test(ch)?`« ${ch} » est une vraie lettre accentuée : on la garde !`
+        :`« ${ch} » est une vraie lettre, pas un parasite !`;
+      api.bad(t,why);
+    }
+  });
+};
+
+/* ---------- FORMAT ---------- */
+STATIONS.format.play=(area,api)=>{
+  const L=api.L,p=L.p;
+  const firstOnly=s=>s[0].toUpperCase()+s.slice(1).toLowerCase();
+  const opts=(correct,pool)=>shuffle([correct,...shuffle([...new Set(pool.filter(x=>x&&x!==correct))]).slice(0,api.diff>=2?3:2)]);
+  const cleanP=L.raw.prenomC,cleanN=L.raw.nomC,em=L.raw.emailBase.toLowerCase();
+  const defs=[
+    {f:'prenom',lab:'Prénom',raw:L.cleaned.has('prenom')?cleanP:L.raw.prenomJ,rule:'Prénom → Initiale en majuscule',ok:p.prenom,
+      pool:[p.prenom.toUpperCase(),p.prenom.toLowerCase(),firstOnly(p.prenom),messCase(p.prenom),' '+p.prenom.toLowerCase()],why:`Prénom : initiale en majuscule (et après un tiret) → « ${p.prenom} ».`},
+    {f:'nom',lab:'Nom',raw:L.cleaned.has('nom')?cleanN:L.raw.nomJ,rule:'NOM → tout en MAJUSCULES',ok:p.nom.toUpperCase(),
+      pool:[capWord(p.nom),p.nom.toLowerCase(),messCase(p.nom),p.nom.toUpperCase().replace(/[' -]/g,'')],why:`Le NOM s'écrit en MAJUSCULES, sans rien retirer → « ${p.nom.toUpperCase()} ».`},
+    {f:'ville',lab:'Ville',raw:L.raw.villeC,rule:'Ville → écriture officielle',ok:p.place.v,
+      pool:[p.place.v.toUpperCase(),p.place.v.toLowerCase(),capWord(p.place.v),noAcc(p.place.v),messCase(p.place.v)],why:`La ville garde son écriture officielle → « ${p.place.v} ».`},
+    {f:'email',lab:'E-mail',raw:L.raw.emailMess,rule:'E-mail → tout en minuscules',ok:em,mono:true,
+      pool:[em[0].toUpperCase()+em.slice(1),em.toUpperCase(),messCase(em),L.raw.emailMess],why:"Une adresse e-mail s'écrit tout en minuscules."}
+  ];
+  const list=defs.map(d=>({isLead:true,prompt:`<div class="rule">📏 ${d.rule}</div><div class="big ${d.mono?'mono':''}">${esc(d.raw)}</div><p class="q">${d.lab} : quelle écriture ?</p>`,
+    choices:opts(d.ok,d.pool).map(v=>({html:esc(v).replace(/^ /,'␣'),ok:v===d.ok,why:d.why,mono:d.mono})),
+    onOk:()=>{L.formatted.add(d.f);api.refresh([d.f])}}));
+  rounds(area,api,list,{cls:'two'});
+};
+
+/* ---------- EMAIL ---------- */
+STATIONS.email.play=(area,api)=>{
+  const L=api.L,list=[];
+  const mk=(correct,typo,isLead)=>{
+    const shown=typo?typo.t(correct):correct;
+    const t2=typoOf(correct,typo),t3=typoOf(correct,t2&&t2!==typo?t2:typo);
+    let choices;
+    if(typo)choices=[{v:correct,ok:true},{v:shown,why:typo.m},{v:t2.t(correct),why:t2.m}];
+    else{const o=[t2,TYPOS.find(t=>t!==t2&&t.t(correct)!==correct)];choices=[{v:correct,ok:true},...o.filter(Boolean).map(t=>({v:t.t(correct),why:t.m}))]}
+    choices=choices.filter((c,i,a)=>a.findIndex(x=>x.v===c.v)===i);
+    return {isLead,prompt:`<div class="big mono">${esc(shown)}</div><p class="q">Quelle adresse enregistrer dans le CRM ?</p>`,
+      choices:shuffle(choices).map(c=>({html:esc(c.v),ok:!!c.ok,why:c.why,mono:true})),
+      info:!typo&&!api.rush?'Elle était déjà bonne : on ne touche à rien 👌':null};
+  };
+  const n=nRounds(api,1);
+  for(let k=0;k<n-1;k++){const q=makePerson(api.diff);const bad=Math.random()<.6;list.push(mk(q.email,bad?typoOf(q.email):null,false))}
+  list.push(mk(L.p.email,L.typo||typoOf(L.p.email),true));
+  rounds(area,api,list,{cls:''});
+};
+
+/* ---------- PHONE ---------- */
+STATIONS.phone.play=(area,api)=>{
+  const L=api.L,ph=L.p.phone,pl=L.p.place,ct=CTRY[pl.c];
+  const where=api.diff>=3?pl.v:`${pl.v} (${ct.name})`;
+  const codes=shuffle([ph.code,...shuffle(ALLCODES.filter(c=>c!==ph.code)).slice(0,3)]);
+  const codeName=c=>{const k=Object.keys(CTRY).find(k=>CTRY[k].code===c);return k?CTRY[k].name:{'+44':'Royaume-Uni','+49':'Allemagne','+352':'Luxembourg'}[c]};
+  const step1={isLead:true,prompt:`<div class="big mono">📞 ${esc(L.raw.tel)}</div><p class="q">📍 ${esc(where)} — quel indicatif ?</p>`,
+    choices:codes.map(c=>({html:`<b>${c}</b>${api.diff===1?`<span class="sub">${codeName(c)}</span>`:''}`,ok:c===ph.code,why:`${pl.v}, c'est ${ct.name} : indicatif ${ph.code}.`})),
+    onOk:()=>{if(['mq','re','ca'].includes(pl.c))unlock('globe')}};
+  const other=shuffle(ALLCODES.filter(c=>c!==ph.code))[0];
+  const alts=[
+    ph.zero?{v:ph.code+' '+grp(ph.nat,[2,2,2,2,2]),why:"Le 0 du début saute quand on ajoute l'indicatif !"}:{v:ph.code+' '+grp('0'+ph.sub,[3,2,2,2]),why:`Ici, pas de 0 à ajouter : le numéro commence directement après ${ph.code}.`},
+    {v:ph.intl.slice(1),why:"Sans le « + », ce n'est pas le format international."},
+    {v:other+' '+grp(ph.sub,ph.sz),why:`Mauvais indicatif : ${pl.v} → ${ph.code}.`},
+    {v:ph.intl.slice(0,-1),why:'Il manque un chiffre à la fin !'}
+  ];
+  const step2={isLead:true,prompt:`<div class="big mono">📞 ${esc(L.raw.tel)}</div><p class="q">Quelle est la bonne écriture internationale ?</p>`,
+    choices:shuffle([{html:esc(ph.intl),ok:true,mono:true},...shuffle(alts).slice(0,api.diff>=2?3:2).map(a=>({html:esc(a.v),why:a.why,mono:true}))])};
+  rounds(area,api,[step1,step2],{cls:'two'});
+};
+
+/* ---------- CIVILITÉ ---------- */
+STATIONS.civ.play=(area,api)=>{
+  const L=api.L,list=[];
+  const n=nRounds(api,2);
+  const amb=api.diff>=2||api.rush?Math.max(1,api.diff-1):1;
+  const pool=[];
+  for(let k=0;k<n-1;k++)pool.push(k<amb?{p:rnd(PA),g:'A'}:(g=>({p:rnd(g==='M'?PM:PF),g}))(rnd(['M','F'])));
+  const mk=(prenom,g,isLead)=>({isLead,prompt:`<div class="big">${esc(prenom)}${isLead?' '+esc(L.p.nom.toUpperCase()):''}</div><p class="q">Quelle civilité ?</p>`,
+    choices:[['M','🎩 Monsieur'],['F','👒 Madame'],['A','🤔 À vérifier']].map(([k,h])=>({html:h,ok:k===g,
+      why:g==='A'?`« ${prenom} » peut être porté par un homme ou une femme : dans le doute, on ne devine pas → « À vérifier ».`
+        :k==='A'?`« ${prenom} » n'a rien d'ambigu : ${CIVL[g]}.`:`« ${prenom} » → ${CIVL[g]}.`})),
+    onOk:()=>{if(g==='A')unlock('nodevine');if(isLead){L.civ=g;api.refresh(['civ'])}}});
+  shuffle(pool).forEach(x=>list.push(mk(x.p,x.g,false)));
+  list.push(mk(L.p.prenom,L.p.g,true));
+  rounds(area,api,list,{cls:'three'});
+};
+
+/* ---------- DEDUP ---------- */
+STATIONS.dedup.play=(area,api)=>{
+  const L=api.L,p=L.p,d=api.diff;
+  const card=(c,cls='')=>`<button class="pcard ${cls}" ${c.id!=null?`data-id="${c.id}"`:''}><b>${esc(c.name)}</b>✉️ ${esc(c.email)}<br>☎️ ${esc(c.tel)}<br>📍 ${esc(c.ville)}</button>`;
+  const dupVariants=shuffle([
+    {name:`${p.prenom[0]}. ${p.nom.toUpperCase()}`,email:p.email,tel:rawPhone(p.phone),ville:p.place.v.toUpperCase()},
+    {name:`${p.nom.toUpperCase()} ${p.prenom}`,email:'—',tel:p.phone.intl.replace(/ /g,''),ville:p.place.v},
+    {name:`${p.prenom} ${p.nom}`.toLowerCase(),email:p.email.toUpperCase(),tel:'—',ville:'—'}
+  ]).slice(0,d===1?1:d===2?2:3).map(x=>({...x,dup:true}));
+  const decoys=[];
+  const nDec=d===1?2:d===2?3:3;
+  if(d>=2){const h=makePerson(d);decoys.push({name:`${p.prenom} ${p.nom.toUpperCase()}`,email:h.email,tel:rawPhone(h.phone),ville:h.place.v===p.place.v?'Lille':h.place.v,homo:true})}
+  while(decoys.length<nDec){const h=makePerson(d);decoys.push({name:`${h.prenom} ${h.nom.toUpperCase()}`,email:h.email,tel:rawPhone(h.phone),ville:h.place.v})}
+  const all=shuffle([...dupVariants,...decoys]).map((c,i)=>({...c,id:i}));
+  const me={name:`${p.prenom} ${p.nom.toUpperCase()}`,email:p.email,tel:p.phone.intl,ville:p.place.v};
+  area.innerHTML=card(me,'me')+`<div class="cards">${all.map(c=>card(c)).join('')}</div><p class="dup-left" id="dup-left"></p>`;
+  let found=0;const upd=()=>{$('#dup-left',area).textContent=`👯 Clones restants : ${dupVariants.length-found}`};upd();
+  $$('.pcard[data-id]',area).forEach(b=>b.onclick=()=>{
+    const c=all[+b.dataset.id];
+    if(c.dup){b.classList.add('merged');found++;api.good(b,null);upd();if(found===dupVariants.length)setTimeout(api.done,500)}
+    else{b.classList.add('wrong');b.disabled=true;
+      api.bad(b,c.homo?"Même nom… mais ni le même e-mail ni le même téléphone : c'est un <b>homonyme</b>, pas un doublon !":"Ni ton e-mail ni ton téléphone : ce n'est pas toi !")}
+  });
+};
+
+/* ---------- RGPD ---------- */
+STATIONS.rgpd.play=(area,api)=>{
+  const L=api.L,n=nRounds(api,2);
+  const qs=shuffle(RGPD).slice(0,n-1);
+  const list=qs.map(q=>({prompt:`<div class="clue">🛡️ « ${esc(q.s)} »</div><p class="q">Vrai ou faux ?</p>`,
+    choices:[{html:'✅ Vrai',ok:q.a,why:q.w},{html:'❌ Faux',ok:!q.a,why:q.w}],info:q.w}));
+  const date=`${rint(1,28)}/${String(rint(1,9)).padStart(2,'0')}/2026`;
+  list.push({isLead:true,prompt:`<div class="clue">🛡️ Brutus a coché lui-même « J'accepte d'être recontacté » le ${date}. On le transmet au commercial, avec la date et la source du consentement.</div><p class="q">Vrai ou faux : c'est en règle ?</p>`,
+    choices:[{html:'✅ Vrai',ok:true},{html:'❌ Faux',ok:false,why:"Consentement donné par la personne elle-même, daté et sourcé : c'est tout bon !"}],info:'Consentement tracé : la porte s\'ouvre ! 🚪'});
+  rounds(area,api,list,{cls:'two'});
+};
+
+/* ---------- ROUTE ---------- */
+STATIONS.route.play=(area,api)=>{
+  const L=api.L,pl=L.p.place,S=L.sales;
+  const fr=pl.c==='fr';
+  const why=fr?`Code postal ${pl.cp} → département ${pl.cp.slice(0,2)} → ${S.zone} : c'est ${S.name} !`:`${CTRY[pl.c].name} : hors métropole → ${S.name}, ${S.zone}.`;
+  const list=[{isLead:true,prompt:`<div class="big">📍 ${esc(pl.cp)} ${esc(pl.v)}</div>${fr?'':`<p class="q" style="margin-top:2px">${CTRY[pl.c].name}</p>`}<p class="q">À quel commercial m'envoyer ?</p>`,
+    choices:Object.keys(SALES).map(k=>{const s=SALES[k];return {html:`<div class="av">${salesSVG(s)}</div><b>${s.name}</b><span class="zn">${s.zone}</span><span class="zn">${s.depts}</span>`,ok:s===S,why}})}];
+  rounds(area,api,list,{cls:'sales-grid'});
+  $$('.choice',area).forEach(b=>b.classList.add('sales-choice'));
+};
+
+/* ================= Arrival / end ================= */
+const JOY=["YESSS ! Un lead propre, je l'appelle tout de suite !","Enfin une fiche que je peux exploiter ! 😭","Civilité, indicatif, source… c'est Noël !","Je vais signer ce contrat avant midi !","Toi, je t'aurais bien fait la bise. Mais RGPD.","Ce lead brille tellement que j'ai dû mettre des lunettes 😎"];
+function arrive(){
+  clearInterval(G.timer);G.paused=true;
+  const g=G,lvl=g.level,t=g.elapsed;
+  const bonus=Math.max(0,Math.round((lvl.par-t)*10));g.score+=bonus;
+  const stars=g.errors===0?3:g.errors<=2?2:1;
+  const prevBest=SAVE.best[g.idx]||0,newRecord=g.score>prevBest;
+  SAVE.stars[g.idx]=Math.max(SAVE.stars[g.idx]||0,stars);SAVE.best[g.idx]=Math.max(prevBest,g.score);persist();
+  unlock('first');if(g.errors===0)unlock('perfect');if(t<45)unlock('fast');if(isGold(g.L))unlock('gold');
+  if(LEVELS.every((_,i)=>SAVE.stars[i]===3))unlock('allstars');
+  const S=g.L.sales,next=LEVELS[g.idx+1];
+  const nextNew=next?next.st.filter(k=>!lvl.st.includes(k)):[];
+  const quote=isGold(g.L)?"UN LEAD EN OR !!! Je t'encadre au-dessus de mon bureau 👑":rnd(JOY);
+  const shareTxt=`🧹➡️✨ J'ai transformé une donnée brute en lead propre dans « Brutus » (niveau ${g.idx+1} : ${lvl.name}) : ${g.score} pts, ${'★'.repeat(stars)} en ${fmtTime(t)} !\n\nNettoyage, mise en forme, indicatif, civilité, source… et le commercial a sauté de joie 🕺\n\nÀ ton tour 👉 ${location.origin}\n#DataQuality #CRM #Marketing #Sales`;
+  show('end');
+  $('#end').innerHTML=`
+    <div class="end-scene"><div class="eb">${brutusSVG(g.L)}</div><div class="es" id="end-sales">${salesSVG(S,'wait')}</div>
+      <div class="bubble">${esc(S.name)} : « ${esc(quote)} »</div></div>
+    <h2>Lead livré à ${esc(S.name)} ! 🎉</h2>
+    <div class="bigstars">${[0,1,2].map(i=>i<stars?`<span style="animation-delay:${1.4+i*.2}s">★</span>`:'<i>★</i>').join('')}</div>
+    ${newRecord&&prevBest?'<div class="record">🏆 Nouveau record !</div>':''}
+    <div class="stats">
+      <div class="stat"><b>${g.score}</b><small>Score</small></div>
+      <div class="stat"><b>${fmtTime(t)}</b><small>Temps</small></div>
+      <div class="stat"><b>${g.errors}</b><small>Erreurs</small></div>
+      <div class="stat"><b>x${g.maxCombo}</b><small>Meilleur combo</small></div>
+    </div>
+    <div style="color:var(--ink2);font-weight:700;font-size:14px">Bonus rapidité : +${bonus} · ${stars<3?`${g.errors} erreur${g.errors>1?'s':''} — vise le zéro faute pour 3 ★ !`:'Zéro faute, bravo !'}</div>
+    <div class="compare">
+      <div class="fiche before">${ficheHTML(rawRows(g.L).map(r=>({...r,s:'bad'})),'Avant','donnée brute')}</div>
+      <div class="arrow">➜</div>
+      <div class="fiche after">${ficheHTML(ficheRows(g.L),'Après',EVO_NAMES[stage(g.L)])}</div>
+    </div>
+    ${next?`<div class="teaser">Prochain niveau : « ${esc(next.name)} »${nextNew.length?' — nouveau : '+nextNew.map(k=>STATIONS[k].icon+' '+STATIONS[k].short).join(', '):''}</div>`:'<div class="teaser">👑 Tu as terminé le parcours ! Vise les 3 étoiles partout… ou bats ton record en Mode Rush ⚡</div>'}
+    <div class="end-btns">
+      ${next?`<button class="btn mint" id="e-next">Niveau suivant ▶</button>`:`<button class="btn sun" id="e-rush">⚡ Mode Rush</button>`}
+      <button class="btn ghost" id="e-retry">↻ Rejouer</button>
+      <button class="btn ghost" id="e-map">🗺️ Niveaux</button>
+    </div>
+    <div class="share-box"><p>Montre à ton réseau que tu sais traiter une donnée 😎</p>
+      <div class="end-btns" style="margin:0"><button class="btn li" id="e-li">Partager sur LinkedIn</button><button class="btn ghost" id="e-copy">📋 Copier mon score</button></div></div>`;
+  G=null;
+  setTimeout(()=>{const es=$('#end-sales');if(es){es.innerHTML=salesSVG(S,'joy');SFX.win();confetti(200)}},1300);
+  if(next)$('#e-next').onclick=()=>startLevel(g.idx+1);else $('#e-rush').onclick=startRush;
+  $('#e-retry').onclick=()=>startLevel(g.idx);
+  $('#e-map').onclick=showLevels;
+  $('#e-li').onclick=()=>shareLI(shareTxt);
+  $('#e-copy').onclick=()=>copyTxt(shareTxt);
+}
+function shareLI(txt){
+  copyTxt(txt,true);
+  window.open('https://www.linkedin.com/sharing/share-offsite/?url='+encodeURIComponent(location.origin+'/'),'_blank','noopener');
+}
+function copyTxt(txt,silent){
+  const ok=()=>toast(silent?'📋 Texte du post copié : colle-le dans LinkedIn !':'📋 Copié ! Colle-le dans ton post LinkedIn 😉','info');
+  if(navigator.clipboard)navigator.clipboard.writeText(txt).then(ok).catch(()=>fallbackCopy(txt,ok));else fallbackCopy(txt,ok);
+}
+function fallbackCopy(txt,ok){const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');ok()}catch(e){}ta.remove()}
+
+/* ================= Rush mode ================= */
+const RUSH_ST=['source','clean','format','email','phone','civ','rgpd','route'];
+function startRush(){
+  stopGame();
+  G={mode:'rush',delivered:0,score:0,combo:0,maxCombo:0,errors:0,stErr:0,elapsed:0,timeLeft:90,last:performance.now(),token:Symbol(),paused:true};
+  show('game');
+  $('#hud-lvl').textContent='Mode Rush ⚡';$('#hud-name').textContent='Livre un max de leads en 90 s';
+  newRushLead();
+  modal(`<div class="ic">⚡</div><div class="kick">Mode Rush</div><h2>90 secondes chrono</h2>
+    <div class="why">Les leads arrivent à la chaîne ! Chaque lead passe par 3 étapes au hasard.<br><b>+8 s</b> par lead livré · <b>−3 s</b> par erreur.</div>
+    <div class="how">Record actuel : <b>${SAVE.rush} lead${SAVE.rush>1?'s':''}</b></div>
+    <button class="btn sun" id="go">GO !</button>`);
+  $('#go').onclick=()=>{closeModal();G.paused=false;G.last=performance.now();G.timer=setInterval(tick,200);nextStation()};
+}
+function newRushLead(){
+  const d=Math.min(3,1+Math.floor(G.delivered/3));
+  const st=shuffle(RUSH_ST).slice(0,3).sort((a,b)=>ORDER.indexOf(a)-ORDER.indexOf(b));
+  G.level={name:'Rush',st,d};G.L=makeLead(G.level);G.i=0;
+  renderAll();
+}
+function rushDelivered(){
+  G.delivered++;G.timeLeft+=8;floatText($('#hud-time'),'+8 s','#19c39c');
+  if(G.delivered>=10)unlock('rush10');
+  SFX.win();
+  const r=$('#station').getBoundingClientRect();confetti(70,r.left+r.width/2);
+  $('#area').innerHTML=`<div style="display:flex;align-items:center;justify-content:center;gap:24px;padding:30px 0"><div style="width:110px">${brutusSVG(G.L)}</div><div style="width:90px">${salesSVG(G.L.sales,'joy')}</div></div>
+    <p style="text-align:center;font-family:'Baloo 2';font-size:26px;font-weight:800;margin:0">Lead n°${G.delivered} livré à ${esc(G.L.sales.name)} ! 📦</p>`;
+  updateHud();
+  const tok=G.token;
+  setTimeout(()=>{if(G&&G.token===tok){newRushLead();nextStation()}},1100);
+}
+function endRush(){
+  clearInterval(G.timer);
+  const g=G;G=null;
+  const rec=g.delivered>SAVE.rush;if(rec){SAVE.rush=g.delivered;persist()}
+  const shareTxt=`⚡ ${g.delivered} lead${g.delivered>1?'s':''} livré${g.delivered>1?'s':''} en Mode Rush dans « Brutus » (${g.score} pts) !\n\nNettoyer, formater, ajouter l'indicatif, la civilité, la source… à la chaîne 🏭\nTu fais mieux ? 👉 ${location.origin}\n#DataQuality #CRM #Sales`;
+  show('end');
+  const f=makeLead(LEVELS[7]);ORDER.forEach(k=>f.done.add(k));f.civ=f.p.g;['prenom','nom','ville','email'].forEach(k=>f.formatted.add(k));
+  $('#end').innerHTML=`<div class="end-scene"><div class="eb">${brutusSVG(f)}</div><div class="es">${salesSVG(SALES.ouest,'joy')}</div>
+    <div class="bubble">« ${g.delivered>=8?'Tu es une machine !!!':g.delivered>=4?'Mon pipeline déborde, merci !':'Pas mal… on remet ça ?'} »</div></div>
+    <h2>Temps écoulé ! ⏱</h2>
+    ${rec?'<div class="record">🏆 Nouveau record !</div>':''}
+    <div class="stats">
+      <div class="stat"><b>${g.delivered}</b><small>Leads livrés</small></div>
+      <div class="stat"><b>${g.score}</b><small>Score</small></div>
+      <div class="stat"><b>${g.errors}</b><small>Erreurs</small></div>
+      <div class="stat"><b>${SAVE.rush}</b><small>Record</small></div>
+    </div>
+    <div class="end-btns"><button class="btn sun" id="e-retry">⚡ Rejouer</button><button class="btn ghost" id="e-map">🗺️ Niveaux</button></div>
+    <div class="share-box"><p>Défie ton réseau !</p><div class="end-btns" style="margin:0"><button class="btn li" id="e-li">Partager sur LinkedIn</button><button class="btn ghost" id="e-copy">📋 Copier mon score</button></div></div>`;
+  SFX.win();confetti(160);
+  $('#e-retry').onclick=startRush;$('#e-map').onclick=showLevels;
+  $('#e-li').onclick=()=>shareLI(shareTxt);$('#e-copy').onclick=()=>copyTxt(shareTxt);
+}
+
+/* ================= Menus ================= */
+const rushUnlocked=()=>!!SAVE.stars[3];
+function showLevels(){
+  stopGame();show('levels');
+  let tot=0;
+  $('#levels').innerHTML=LEVELS.map((l,i)=>{
+    const s=SAVE.stars[i]||0;tot+=s;
+    const locked=i>0&&!SAVE.stars[i-1];
+    const newSt=l.st.filter(k=>!LEVELS.slice(0,i).some(x=>x.st.includes(k)));
+    return `<button class="lvl ${locked?'locked':''} ${l.boss?'boss':''}" data-i="${i}">
+      <div class="num">${locked?'🔒':i+1}</div>
+      <div><h3>${esc(l.name)}</h3>
+      <div class="new">${newSt.length?'Nouveau : '+newSt.map(k=>STATIONS[k].short).join(', '):l.d>=3?'Difficulté max · chrono':'Parcours complet'}</div>
+      <div class="st">${l.st.map(k=>STATIONS[k].icon).join('')}</div>
+      <div class="stars">${[0,1,2].map(k=>k<s?'★':'<i>★</i>').join('')}</div>
+      ${SAVE.best[i]?`<div class="best">Record : ${SAVE.best[i]} pts</div>`:''}</div></button>`;
+  }).join('');
+  $('#total-stars').textContent=`⭐ ${tot}/30`;
+  $$('#levels .lvl').forEach(b=>b.onclick=()=>{SFX.click();startLevel(+b.dataset.i)});
+  const rc=$('#rush-card');
+  rc.className='rush-card'+(rushUnlocked()?'':' locked');
+  rc.innerHTML=`<span class="big">${rushUnlocked()?'⚡':'🔒'}</span><div><h3>Mode Rush</h3><p>${rushUnlocked()?`90 secondes, un max de leads. Record : <b>${SAVE.rush}</b>`:'Termine le niveau 4 pour débloquer'}</p></div>`;
+  rc.onclick=startRush;
+}
+function showAch(){
+  show('ach');
+  $('#ach-count').textContent=`${SAVE.ach.length}/${ACH.length}`;
+  $('#achs').innerHTML=ACH.map(a=>`<div class="ach ${SAVE.ach.includes(a.id)?'':'lock'}"><div class="i">${a.icon}</div><div><h3>${a.name}</h3><p>${a.desc}</p></div></div>`).join('');
+}
+function showTitle(){
+  stopGame();show('title');
+  $('#title-brutus').innerHTML=brutusSVG(null);
+  $('#title-sales').innerHTML=salesSVG(SALES.ouest,'wait');
+  const r=$('#btn-rush');r.disabled=!rushUnlocked();r.innerHTML=rushUnlocked()?`⚡ Mode Rush <small style="opacity:.7">(record ${SAVE.rush})</small>`:'🔒 Mode Rush (niveau 4)';
+}
+$('#btn-play').onclick=()=>{SFX.click();Object.keys(SAVE.stars).length?showLevels():startLevel(0)};
+$('#btn-rush').onclick=startRush;
+$('#btn-ach').onclick=showAch;
+$$('[data-go="title"]').forEach(b=>b.onclick=showTitle);
+$('#btn-quit').onclick=()=>{
+  if(!G)return showLevels();
+  const wasPaused=G.paused;G.paused=true;
+  modal(`<div class="ic">🥺</div><h2>Abandonner Brutus ?</h2><div class="why">Le commercial attend toujours… Ta progression dans ce niveau sera perdue.</div>
+    <div class="end-btns"><button class="btn mint" id="q-no">Je continue !</button><button class="btn ghost" id="q-yes">Quitter</button></div>`);
+  $('#q-no').onclick=()=>{closeModal();if(G){G.paused=wasPaused;G.last=performance.now()}};
+  $('#q-yes').onclick=showLevels;
+};
+syncMute();
+showTitle();
+</script>
+</body>
+</html>

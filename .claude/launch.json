@@ -1,0 +1,6 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    { "name": "brutus", "runtimeExecutable": "npx", "runtimeArgs": ["-y", "http-server", "-p", "3037", "-c-1", "--silent"], "port": 3037 }
+  ]
+}
